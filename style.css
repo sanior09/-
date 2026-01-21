@@ -1,0 +1,258 @@
+/* 1. Import ฟอนต์จาก Google Fonts (Charm สำหรับหัวข้อ / Sarabun สำหรับเนื้อหา) */
+@import url('https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Sarabun:wght@300;400;700&display=swap');
+
+/* ตั้งค่าพื้นฐาน */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Sarabun', sans-serif; /* ฟอนต์หลักสำหรับอ่านเนื้อหา */
+    line-height: 1.6;
+    color: #333;
+    background-color: #fcfaf5; /* สีพื้นหลังขาวนวลแบบกระดาษเก่า */
+    scroll-behavior: smooth;
+}
+
+/* Header - ตกแต่งให้หรูหราแบบไทยประยุกต์ */
+header {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url('https://www.kasikornbank.com/SiteCollectionDocuments/assets/PFS2022/pages/article/thai-traditional-house/img/1-jul4.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+header h1 {
+    font-family: 'Charm', cursive; /* ฟอนต์ไทยเดิม */
+    font-size: 5rem;
+    margin-bottom: 10px;
+    letter-spacing: 5px;
+    text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
+}
+
+header p {
+    font-family: 'Charm', cursive;
+    font-size: 1.8rem;
+    font-weight: 400;
+    opacity: 0.95;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+/* Navbar - ปรับสีให้เข้ากับธีมไทย (สีน้ำเงินครามหม้อห้อม) */
+#navbar {
+    background-color: #1a3a5a; /* สีน้ำเงินเข้มคล้ายหม้อห้อม */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#navbar a {
+    color: #e0e0e0;
+    text-decoration: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    transition: 0.3s;
+    font-size: 1.1rem;
+}
+
+#navbar a:hover {
+    color: #ffd700; /* สีทองเมื่อเอาเมาส์วาง */
+}
+
+/* =========================================
+   ส่วนที่เพิ่มใหม่: ตัวหนังสือเลื่อน (Marquee)
+   ========================================= */
+/* ส่วนของแถบตัวเลื่อนสีทอง */
+.news-ticker {
+    width: 100%;
+    /* ใช้การไล่สี Gradient ให้ดูเป็นประกายทอง */
+    background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    color: #1a3a5a; /* ตัวหนังสือสีน้ำเงินครามหม้อห้อม เพื่อให้อ่านง่ายบนสีทอง */
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+    font-weight: bold;
+    /* เพิ่มเส้นขอบเงาสีทองเข้ม */
+    border-top: 1px solid #d4af37;
+    border-bottom: 2px solid #8a6d3b;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 999;
+}
+
+.ticker-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 30s linear infinite; /* ปรับเป็น 35 วินาทีเพื่อให้เลื่อนนุ่มนวลขึ้นเพราะข้อความยาว */
+    font-size: 1.1rem;
+    text-shadow: 0.5px 0.5px 0px rgba(255,255,255,0.5); /* เพิ่มมิติให้ตัวอักษร */
+}
+
+@keyframes marquee {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+/* หยุดเลื่อนเมื่อเอาเมาส์ไปชี้ */
+.news-ticker:hover .ticker-content {
+    animation-play-state: paused;
+}
+/* ========================================= */
+
+/* Section ทั่วไป */
+section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Charm', cursive;
+    font-size: 3rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ffd700;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 50px;
+    font-style: italic;
+}
+
+/* Grid & Cards - ปรับแต่งส่วนแสดงผล 10 สถานที่ */
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #eee;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.place-img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 25px;
+    text-align: left;
+}
+
+.card h3 {
+    font-family: 'Charm', cursive;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+.card h3 a {
+    text-decoration: none;
+    color: #1a3a5a;
+}
+
+.card h3 a:hover {
+    color: #d4af37; /* สีทองหม่น */
+}
+
+.card p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Map - ตกแต่งขอบแผนที่ */
+.map-wrapper {
+    margin-top: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Contact Section & Button */
+button {
+    padding: 15px 35px;
+    background-color: #1a3a5a;
+    color: white;
+    border: none;
+    border-radius: 50px; /* ทรงมนสวยงาม */
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: 'Sarabun', sans-serif;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #d4af37;
+    transform: scale(1.05);
+}
+
+.hidden {
+    display: none;
+}
+
+#contactDetails {
+    margin-top: 25px;
+    font-size: 1.2rem;
+    color: #2c3e50;
+    line-height: 2;
+}
+
+/* Footer */
+footer {
+    background: #1a3a5a;
+    color: #bdc3c7;
+    text-align: center;
+    padding: 40px;
+    margin-top: 100px;
+}
+
+/* Animation Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive - สำหรับมือถือ */
+@media (max-width: 600px) {
+    header h1 { font-size: 2.8rem; }
+    header p { font-size: 1.3rem; }
+    h2 { font-size: 2.2rem; }
+    .places-grid { grid-template-columns: 1fr; }
+}
