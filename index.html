@@ -4,6 +4,25 @@
 
 <head>
 
+
+   <audio id="myAudio" src="C:\Users\sanio\Downloads\-  Bueak Feat   Cover - HamPMN .mp3" loop></audio>
+
+<script>
+  // ฟังก์ชันสั่งให้เพลงเล่น
+  function playMusic() {
+    const audio = document.getElementById("myAudio");
+    audio.play();
+    // ลบ Event Listener ออกเมื่อเพลงเริ่มเล่นแล้ว เพื่อไม่ให้รันซ้ำ
+    document.removeEventListener('click', playMusic);
+  }
+
+  // ดักจับการคลิกบนหน้าเว็บเพื่อเริ่มเล่นเพลง
+  document.addEventListener('click', playMusic);
+</script>
+
+
+
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +69,7 @@
 
         <div class="ticker-content">
 
-            ✨ ยินดีต้อนรับสู่เมืองแพร่ ประตูสู่ล้านนาตะวันออก ✨ สัมผัสเสน่ห์บ้านไม้สักโบราณและวิถีหม้อห้อม ✨ พระธาตุช่อแฮ: พระธาตุปีเกิดปีขาล ✨
+            ✨ ยินดีต้อนรับสู่เมืองแพร่ ประตูสู่ล้านนาตะวันออก ✨ สัมผัสเสน่ห์บ้านไม้สักโบราณและวิถีหม้อห้อม ✨ หม้อห้อมไม้สัก ถิ่นรักพระลอ ช่อแฮศรีเมือง ลือเลื่องแพะเมืองผี คนแพร่นี้ใจงาม ✨
 
         </div>
 
