@@ -3,25 +3,7 @@
 <html lang="th">
 
 <head>
-
-
-   <audio id="myAudio" src="C:\Users\sanio\Downloads\-  Bueak Feat   Cover - HamPMN .mp3" loop></audio>
-
-<script>
-  // ฟังก์ชันสั่งให้เพลงเล่น
-  function playMusic() {
-    const audio = document.getElementById("myAudio");
-    audio.play();
-    // ลบ Event Listener ออกเมื่อเพลงเริ่มเล่นแล้ว เพื่อไม่ให้รันซ้ำ
-    document.removeEventListener('click', playMusic);
-  }
-
-  // ดักจับการคลิกบนหน้าเว็บเพื่อเริ่มเล่นเพลง
-  document.addEventListener('click', playMusic);
-</script>
-
-
-
+    
 
     <meta charset="UTF-8">
 
@@ -98,186 +80,96 @@
 
 
             <div class="places-grid">
-
-                <div class="card reveal">
-
-                    <img src="https://scontent.fbkk12-5.fna.fbcdn.net/v/t39.30808-6/327470949_711958650635342_3490044517821434559_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=f8yD4NHSAkIQ7kNvwHj5J52&_nc_oc=Adn_GtYt3RR8l6x9Sdw4PILqfbNUpCpMiSFwCagjlzcxqzy9z1Jyn8Pg_ogOaey0JpU&_nc_zt=23&_nc_ht=scontent.fbkk12-5.fna&_nc_gid=V7xYnj3Vt6YLsce03dQtNg&oh=00_AfpfhfjNi5SQfpbsHn5wT7gN0l42ygT2CQsb7ejtDQgv3Q&oe=69769F3A" alt="วัดพระธาตุช่อแฮ" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/shPr72Bv6Gf5G9G68" target="_blank">1. วัดพระธาตุช่อแฮ 📍</a></h3>
-
-                        <p>พระธาตุคู่บ้านคู่เมืองแพร่ และเป็นพระธาตุประจำปีเกิดของผู้ที่เกิดปีขาล องค์พระธาตุบุด้วยทองดอกบวบงดงาม</p>
-
-                        <button class="btn-video" data-video="7E60Yo_MXas">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://images.unsplash.com/photo-1627664819818-e147d6221422?q=80&w=1000&auto=format&fit=crop" alt="คุ้มวงศ์บุรี" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/XW8n7Q8G7G72" target="_blank">2. คุ้มวงศ์บุรี 📍</a></h3>
-
-                        <p>อาคารไม้สักทอง 2 ชั้น สีชมพูอ่อน สถาปัตยกรรมไทยผสมยุโรป โดดเด่นด้วยลวดลายไม้ฉลุ "ขนมปังขิง"</p>
-
-                        <button class="btn-video" data-video="BKzEkeh2oxA">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0xNgm-1X-492qbK04HZgShbCR6MtQtkbGKg&s" alt="แพะเมืองผี" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/Y7G7G7G7G72" target="_blank">3. อุทยานแพะเมืองผี 📍</a></h3>
-
-                        <p>ปรากฏการณ์ทางธรณีวิทยาที่เกิดจากการกัดเซาะของน้ำและลมจนกลายเป็นเสาดินรูปทรงแปลกตา มีตำนานเล่าขาน</p>
-
-                        <button class="btn-video" data-video="VLM-DNxkN50">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://www.phraepao.go.th/main/wp-content/uploads/2020/08/IMG_9141.jpg" alt="คุ้มเจ้าหลวง" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/Z8H7H7H7H72" target="_blank">4. พิพิธภัณคุ้มเจ้าหลวง 📍</a></h3>
-
-                        <p>อดีตที่ประทับของเจ้าเมืองแพร่ อาคารสถาปัตยกรรมสมัย ร.5 ที่ได้รับรางวัลอนุรักษ์ดีเด่น ใต้ถุนเคยใช้เป็นคุก</p>
-
-                        <button class="btn-video" data-video="u3z71NYhGZk">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://cbtthailand.dasta.or.th/upload-file-api/Resources/RelateAttraction/Images/RAT540103/1.jpeg" alt="วัดพระธาตุสุโทน" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/A9J7J7J7J72" target="_blank">5. วัดพระธาตุสุโทนฯ 📍</a></h3>
-
-                        <p>วัดที่รวมศิลปกรรมล้านนาจากหลายแห่งไว้ด้วยกัน มีพระพุทธรูปปางไสยาสน์ศิลปะพม่าที่งดงามขนาดใหญ่</p>
-
-                        <button class="btn-video" data-video="AFZ-7LUPRkM">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000&auto=format&fit=crop" alt="บ้านนาคูหา" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/B0K7K7K7K72" target="_blank">6. บ้านนาคูหา 📍</a></h3>
-
-                        <p>หมู่บ้านกลางหุบเขา แหล่งผลิต "เตา" หรือสาหร่ายน้ำจืด มีพระพุทธรูปพระเจ้าต๋นหลวงกลางทุ่งนา</p>
-
-                        <button class="btn-video" data-video="K2ofHQ_8suk">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://scontent.fbkk12-6.fna.fbcdn.net/v/t39.30808-6/481284596_1221410833320836_911724640229287840_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=vrLgVpITuKEQ7kNvwHwKcCW&_nc_oc=AdnJeMJpDJmEB4Wg6N8Ul53HiJiCLjNfFDMGxI1MHfd6gomQRZObGimas0EDwX3LLGU&_nc_zt=23&_nc_ht=scontent.fbkk12-6.fna&_nc_gid=VHjbcfX9g-xmTkmnk6d74g&oh=00_Afq0-XyujgCff7CtLR9c1U0dSd7mV3UHCSW9JbXSZB_63w&oe=69769FD4" alt="กาดพระนอน" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/C1L7L7L7L72" target="_blank">7. กาดพระนอน 📍</a></h3>
-
-                        <p>ถนนคนเดินย่านเมืองเก่า เปิดเฉพาะวันเสาร์ เป็นแหล่งรวมอาหารพื้นถิ่นและผ้าหม้อห้อม</p>
-
-                        <button class="btn-video" data-video="5zGNpJ7m_Ys">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://www.papaiwat.com/th/file/get/file/2019033083e593a5e317c3e28bab76be6ff1ee61140704.jpg" alt="วัดจอมสวรรค์" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/D2M7M7M7M72" target="_blank">8. วัดจอมสวรรค์ 📍</a></h3>
-
-                        <p>วัดเก่าแก่ศิลปะไทยใหญ่ สร้างด้วยไม้สักทั้งหลัง หลังคาสถาปัตยกรรมทรงปราสาทซ้อนชั้น ประดับประดาไม้แกะสลัก</p>
-
-                        <button class="btn-video" data-video="4aJw4wkoftc">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1000&auto=format&fit=crop" alt="อ่างเก็บน้ำแม่สาย" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/E3N7N7N7N72" target="_blank">9. อ่างเก็บน้ำแม่สาย 📍</a></h3>
-
-                        <p>จุดชมทิวทัศน์และพักผ่อนหย่อนใจยอดฮิตของชาวเมืองแพร่ ล้อมรอบด้วยขุนเขา บรรยากาศเงียบสงบ</p>
-
-                        <button class="btn-video" data-video="TO3RfVyNTH0">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="card reveal">
-
-                    <img src="https://images.unsplash.com/photo-1444491741275-3747c53c99b4?q=80&w=1000&auto=format&fit=crop" alt="บ้านทุ่งโฮ้ง" class="place-img">
-
-                    <div class="card-body">
-
-                        <h3><a href="https://goo.gl/maps/F4P7P7P7P72" target="_blank">10. บ้านทุ่งโฮ้ง 📍</a></h3>
-
-                        <p>ต้นตำรับการทำผ้าหม้อห้อมเมืองแพร่ เดินเลือกซื้อเสื้อผ้าหม้อห้อมแฟชั่นและเรียนรู้วิธีการย้อมผ้าด้วยคราม</p>
-
-                        <button class="btn-video" data-video="3vPrR5qEhFk">🎬 ชมวิดีโอ</button>
-
-                    </div>
-
-                </div>
-
-            </div>
+    <div class="card reveal">
+        <img src="https://scontent.fbkk12-5.fna.fbcdn.net/v/t39.30808-6/327470949_711958650635342_3490044517821434559_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=f8yD4NHSAkIQ7kNvwHj5J52&_nc_oc=Adn_GtYt3RR8l6x9Sdw4PILqfbNUpCpMiSFwCagjlzcxqzy9z1Jyn8Pg_ogOaey0JpU&_nc_zt=23&_nc_ht=scontent.fbkk12-5.fna&_nc_gid=V7xYnj3Vt6YLsce03dQtNg&oh=00_AfpfhfjNi5SQfpbsHn5wT7gN0l42ygT2CQsb7ejtDQgv3Q&oe=69769F3A" alt="วัดพระธาตุช่อแฮ" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/shPr72Bv6Gf5G9G68" target="_blank">1. วัดพระธาตุช่อแฮ 📍</a></h3>
+            <p>พระธาตุคู่บ้านคู่เมืองแพร่ และเป็นพระธาตุประจำปีเกิดของผู้ที่เกิดปีขาล องค์พระธาตุบุด้วยทองดอกบวบงดงาม</p>
+            <button class="btn-video" data-video="7E60Yo_MXas">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://images.unsplash.com/photo-1627664819818-e147d6221422?q=80&w=1000&auto=format&fit=crop" alt="คุ้มวงศ์บุรี" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/XW8n7Q8G7G72" target="_blank">2. คุ้มวงศ์บุรี 📍</a></h3>
+            <p>อาคารไม้สักทอง 2 ชั้น สีชมพูอ่อน สถาปัตยกรรมไทยผสมยุโรป โดดเด่นด้วยลวดลายไม้ฉลุ "ขนมปังขิง"</p>
+            <button class="btn-video" data-video="BKzEkeh2oxA">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0xNgm-1X-492qbK04HZgShbCR6MtQtkbGKg&s" alt="แพะเมืองผี" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/6zP4mRiz7v12FjBWA" target="_blank">3. อุทยานแพะเมืองผี 📍</a></h3>
+            <p>ปรากฏการณ์ทางธรณีวิทยาที่เกิดจากการกัดเซาะของน้ำและลมจนกลายเป็นเสาดินรูปทรงแปลกตา มีตำนานเล่าขาน</p>
+            <button class="btn-video" data-video="VLM-DNxkN50">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://www.phraepao.go.th/main/wp-content/uploads/2020/08/IMG_9141.jpg" alt="คุ้มเจ้าหลวง" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/95u3hMhC6X8nS5iC6" target="_blank">4. พิพิธภัณฑ์คุ้มเจ้าหลวง 📍</a></h3>
+            <p>อดีตที่ประทับของเจ้าเมืองแพร่ อาคารสถาปัตยกรรมสมัย ร.5 ที่ได้รับรางวัลอนุรักษ์ดีเด่น ใต้ถุนเคยใช้เป็นคุก</p>
+            <button class="btn-video" data-video="u3z71NYhGZk">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://cbtthailand.dasta.or.th/upload-file-api/Resources/RelateAttraction/Images/RAT540103/1.jpeg" alt="วัดพระธาตุสุโทน" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/mE2vHax9C788X7Mh7" target="_blank">5. วัดพระธาตุสุโทนฯ 📍</a></h3>
+            <p>วัดที่รวมศิลปกรรมล้านนาจากหลายแห่งไว้ด้วยกัน มีพระพุทธรูปปางไสยาสน์ศิลปะพม่าที่งดงามขนาดใหญ่</p>
+            <button class="btn-video" data-video="AFZ-7LUPRkM">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000&auto=format&fit=crop" alt="บ้านนาคูหา" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/5rVatfQkE3r39q1u6" target="_blank">6. บ้านนาคูหา 📍</a></h3>
+            <p>หมู่บ้านกลางหุบเขา แหล่งผลิต "เตา" หรือสาหร่ายน้ำจืด มีพระพุทธรูปพระเจ้าต๋นหลวงกลางทุ่งนา</p>
+            <button class="btn-video" data-video="K2ofHQ_8suk">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://scontent.fbkk12-6.fna.fbcdn.net/v/t39.30808-6/481284596_1221410833320836_911724640229287840_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=vrLgVpITuKEQ7kNvwHwKcCW&_nc_oc=AdnJeMJpDJmEB4Wg6N8Ul53HiJiCLjNfFDMGxI1MHfd6gomQRZObGimas0EDwX3LLGU&_nc_zt=23&_nc_ht=scontent.fbkk12-6.fna&_nc_gid=VHjbcfX9g-xmTkmnk6d74g&oh=00_Afq0-XyujgCff7CtLR9c1U0dSd7mV3UHCSW9JbXSZB_63w&oe=69769FD4" alt="กาดพระนอน" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/U6YQpC83pXp8pYfP6" target="_blank">7. กาดพระนอน 📍</a></h3>
+            <p>ถนนคนเดินย่านเมืองเก่า เปิดเฉพาะวันเสาร์ เป็นแหล่งรวมอาหารพื้นถิ่นและผ้าหม้อห้อม</p>
+            <button class="btn-video" data-video="5zGNpJ7m_Ys">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://www.papaiwat.com/th/file/get/file/2019033083e593a5e317c3e28bab76be6ff1ee61140704.jpg" alt="วัดจอมสวรรค์" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/3XzWAnD9fFpT6VvQ6" target="_blank">8. วัดจอมสวรรค์ 📍</a></h3>
+            <p>วัดเก่าแก่ศิลปะไทยใหญ่ สร้างด้วยไม้สักทั้งหลัง หลังคาสถาปัตยกรรมทรงปราสาทซ้อนชั้น ประดับประดาไม้แกะสลัก</p>
+            <button class="btn-video" data-video="4aJw4wkoftc">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1000&auto=format&fit=crop" alt="อ่างเก็บน้ำแม่สาย" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/Fk9pYy3hR9vP6ZkS8" target="_blank">9. อ่างเก็บน้ำแม่สาย 📍</a></h3>
+            <p>จุดชมทิวทัศน์และพักผ่อนหย่อนใจยอดฮิตของชาวเมืองแพร่ ล้อมรอบด้วยขุนเขา บรรยากาศเงียบสงบ</p>
+            <button class="btn-video" data-video="TO3RfVyNTH0">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+
+    <div class="card reveal">
+        <img src="https://images.unsplash.com/photo-1444491741275-3747c53c99b4?q=80&w=1000&auto=format&fit=crop" alt="บ้านทุ่งโฮ้ง" class="place-img">
+        <div class="card-body">
+            <h3><a href="https://maps.app.goo.gl/VvXmP8z7n7C7z8yP9" target="_blank">10. บ้านทุ่งโฮ้ง 📍</a></h3>
+            <p>ต้นตำรับการทำผ้าหม้อห้อมเมืองแพร่ เดินเลือกซื้อเสื้อผ้าหม้อห้อมแฟชั่นและเรียนรู้วิธีการย้อมผ้าด้วยคราม</p>
+            <button class="btn-video" data-video="3vPrR5qEhFk">🎬 ชมวิดีโอ</button>
+        </div>
+    </div>
+</div>
 
         </section>
 
