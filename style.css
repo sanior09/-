@@ -272,4 +272,71 @@ footer {
     }
     .places-grid { grid-template-columns: 1fr; }
     
+}/* =========================================
+   7. Advanced Falling Leaves (More Leaves)
+   ========================================= */
+.leaf-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1; 
+    overflow: hidden;
+}
+
+.leaf {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #8eb339;
+    border-radius: 0 100%;
+    opacity: 0.5;
+    top: -10%;
+    animation: fall linear infinite;
+}
+
+/* ปรับแต่งสีและขนาดสลับกัน */
+.leaf:nth-child(3n) { background: #d4a373; width: 22px; height: 22px; }
+.leaf:nth-child(3n+1) { background: #556b2f; width: 12px; height: 12px; opacity: 0.3; }
+
+/* กำหนดตำแหน่งและความเร็วแบบกระจาย */
+.leaf:nth-child(1)  { left: 5%;  animation-duration: 15s; animation-delay: 0s; }
+.leaf:nth-child(2)  { left: 15%; animation-duration: 18s; animation-delay: 2s; }
+.leaf:nth-child(3)  { left: 25%; animation-duration: 12s; animation-delay: 4s; }
+.leaf:nth-child(4)  { left: 35%; animation-duration: 20s; animation-delay: 1s; }
+.leaf:nth-child(5)  { left: 45%; animation-duration: 14s; animation-delay: 6s; }
+.leaf:nth-child(6)  { left: 55%; animation-duration: 16s; animation-delay: 3s; }
+.leaf:nth-child(7)  { left: 65%; animation-duration: 19s; animation-delay: 8s; }
+.leaf:nth-child(8)  { left: 75%; animation-duration: 13s; animation-delay: 5s; }
+.leaf:nth-child(9)  { left: 85%; animation-duration: 17s; animation-delay: 2s; }
+.leaf:nth-child(10) { left: 95%; animation-duration: 15s; animation-delay: 7s; }
+.leaf:nth-child(11) { left: 10%; animation-duration: 22s; animation-delay: 4s; }
+.leaf:nth-child(12) { left: 30%; animation-duration: 11s; animation-delay: 9s; }
+.leaf:nth-child(13) { left: 50%; animation-duration: 14s; animation-delay: 0s; }
+.leaf:nth-child(14) { left: 70%; animation-duration: 18s; animation-delay: 3s; }
+.leaf:nth-child(15) { left: 90%; animation-duration: 12s; animation-delay: 1s; }
+
+@keyframes fall {
+    0% {
+        top: -10%;
+        transform: translateX(0) rotate(0deg);
+    }
+    20% {
+        transform: translateX(30px) rotate(45deg);
+    }
+    40% {
+        transform: translateX(-30px) rotate(135deg);
+    }
+    60% {
+        transform: translateX(20px) rotate(225deg);
+    }
+    80% {
+        transform: translateX(-20px) rotate(315deg);
+    }
+    100% {
+        top: 110%;
+        transform: translateX(0) rotate(360deg);
+    }
 }
