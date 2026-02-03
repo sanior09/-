@@ -5,7 +5,7 @@
     --primary-color: #1a3a5f;    /* สีน้ำเงินหม้อห้อม */
     --secondary-color: #d4a373;  /* สีไม้สัก */
     --accent-color: #eb4d4b;     /* สีแดงสำหรับปุ่มวิดีโอ */
-    --bg-color: #fefae0;         /* สีครีมอ่อน สบายตา */
+    --bg-color: #F7F7F7;         /* สีครีมอ่อน สบายตา */
     --text-color: #333;
     --transition: all 0.3s ease;
 }
