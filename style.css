@@ -448,8 +448,24 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 /* =========================================
-   7. Advanced Falling Leaves (More Leaves)
+   7. Advanced Falling Leaves (Fixed Background)
    ========================================= */
+.leaf-container {
+    position: fixed; /* ล็อกตำแหน่งไว้กับหน้าจอ */
+    top: 0;
+    left: 0;
+    width: 100vw;    /* ใช้ vw เพื่อให้เต็มความกว้างหน้าจอแน่นอน */
+    height: 100vh;   /* ใช้ vh เพื่อให้เต็มความสูงหน้าจอแน่นอน */
+    pointer-events: none; /* ยอมให้เมาส์คลิกทะลุไปกดปุ่มข้างหลังได้ */
+    z-index: -1;     /* ให้อยู่หลังสุดของเนื้อหา */
+    overflow: hidden;
+    background-color: transparent; /* มั่นใจว่าไม่บังพื้นหลังหลัก */
+}
+
+.leaf {
+    position: absolute;
+    /* ... ส่วนอื่นคงเดิม ... */
+}
 .leaf-container {
     position: fixed;
     top: 0;
