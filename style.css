@@ -27,7 +27,7 @@ body {
    ========================================= */
 header {
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/482235182_1208223483993876_5591956520544238039_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8EzL4ZLfFLMQ7kNvwFDOFJ1&_nc_oc=AdkaOV-72CtSYV4IveP6VAemUfN7m4NXziRGAnPfcs-es4EJK5Dlie7AZWORD7h8Hec&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=UIEe85Bs2JkdwJzWJn-iJQ&oh=00_AfuqTO_3y1UhJZsXNHfhxz7PzcnhxEygX8kPPtlyKKKmNw&oe=6987A9A1') no-repeat center center/cover;
+                url('https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/482235182_1208223483993876_5591956520544238039_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=AJMVFaFdVlkQ7kNvwGDncmY&_nc_oc=AdlI_EpA1e6Nj_ARq7m_Sp8VqZbMwt22K0lTo6nyN_xjGFCL0wljnEawIHSfKSANA-Q&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=9sE9QzdO4rvejhFSzEe_ng&oh=00_AftDxgIa_2ZPQUAvp0i7caOOFBZryWJNlDGLc8rZHEpVOw&oe=6994D8A1') no-repeat center center/cover;
     height: 60vh;
     display: flex;
     align-items: center;
