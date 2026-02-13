@@ -96,6 +96,23 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // === 5. BACK TO TOP BUTTON ===
+    const backToTopBtn = document.getElementById("backToTop");
+
+    if (backToTopBtn) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        });
+
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    }
 });
 // --- ฟังก์ชันนาฬิกาและวันที่ ---
     const updateDateTime = () => {
@@ -121,4 +138,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateDateTime();
     setInterval(updateDateTime, 1000); // อัปเดตทุกวินาที
+    // เพิ่มฟังก์ชันดึงสภาพอากาศ
+const updateWeather = async () => {
+    try {
+        // พิกัดละติจูด/ลองจิจูด ของ จ.แพร่
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=18.1446&longitude=100.1403&current_weather=true');
+        const data = await response.json();
+        
+        const temp = Math.round(data.current_weather.temperature);
+        const code = data.current_weather.weathercode;
+        
+        // อัปเดตตัวเลขหน้าเว็บ
+        document.getElementById('tempValue').textContent = temp;
+        
+        // เปลี่ยนไอคอนและคำอธิบายตามสภาพอากาศจริง
+        let icon = "☀️";
+        let desc = "ท้องฟ้าแจ่มใส";
+
+        if (code > 0 && code <= 3) { icon = "⛅"; desc = "มีเมฆบางส่วน"; }
+        else if (code >= 45 && code <= 48) { icon = "🌫️"; desc = "มีหมอกลง"; }
+        else if (code >= 51 && code <= 67) { icon = "🌧️"; desc = "ฝนตกโปรยปราย"; }
+        else if (code >= 71) { icon = "⛈️"; desc = "ฝนฟ้าคะนอง"; }
+
+        document.getElementById('weatherIcon').textContent = icon;
+        document.getElementById('weatherDesc').textContent = desc;
+
+    } catch (error) {
+        document.getElementById('weatherDesc').textContent = "เช็คสภาพอากาศไม่ได้";
+    }
+};
+
+// เรียกใช้งาน
+updateWeather();
+setInterval(updateWeather, 600000); // อัปเดตทุก 10 นาที
     

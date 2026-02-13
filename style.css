@@ -36,13 +36,6 @@ header {
     color: white;
 }
 
-header h1 {
-    font-size: 5rem;
-    color: white;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-    font-family: 'Charm', cursive;
-}
-
 /* --- ส่วนปรับปรุง Navbar ให้เท่ขึ้น --- */
 nav {
     background: rgba(26, 58, 95, 0.95); /* ใช้สีเดิมแต่เพิ่มความโปร่งใสเล็กน้อย */
@@ -184,6 +177,11 @@ section h2 {
     width: 100%;
     height: 220px;
     object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .place-img {
+    transform: scale(1.1);
 }
 
 .card-body {
@@ -205,109 +203,29 @@ section h2 {
 
 /* ปุ่มวิดีโอ ปรับให้อยู่กึ่งกลาง */
 .video-btn, .btn-video {
-    background-color: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-color), #ff7675);
     color: white;
     border: none;
-    padding: 10px 25px;
-    border-radius: 25px;
+    padding: 12px 28px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 1rem;
     margin-top: 15px;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* เอฟเฟกต์เด้งดึ๋ง */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(235, 77, 75, 0.3);
 }
 
-/* =========================================
-   ปุ่มวิดีโอสไตล์ Loading Progress SVG
-   ========================================= */
-.button {
-  position: relative;
-  width: 11rem;
-  height: 3.5rem;
-  cursor: pointer;
-  border: none;
-  background: none;
-  margin-top: 15px;
-  font-family: 'Sarabun', sans-serif;
-  font-weight: bold;
+.btn-video:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(235, 77, 75, 0.5);
 }
 
-.button svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.border {
-  width: 100%;
-  height: 100%;
-  stroke: var(--primary-color); /* สีน้ำเงินหม้อห้อม */
-  stroke-width: 3px;
-  fill: #0000;
-  rx: 1em;
-  ry: 1em;
-  stroke-dasharray: 25;
-  transition: fill 0.25s;
-  animation: 4s linear infinite stroke-animation;
-}
-
-@keyframes stroke-animation {
-  0% { stroke-dashoffset: 100; }
-  to { stroke-dashoffset: 0; }
-}
-
-.button:hover .border {
-  fill: rgba(26, 58, 95, 0.05);
-}
-
-.txt-upload {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-color);
-  transition: opacity 0.25s;
-}
-
-/* เมื่อกดปุ่ม (Focus) ให้เริ่มเล่น Animation การโหลด */
-.button:focus .txt-upload {
-  opacity: 0;
-  pointer-events: none;
-  transition-delay: 0.1s;
-}
-
-.loading {
-  width: 100%;
-  height: 100%;
-  stroke: var(--secondary-color); /* สีไม้สักขณะโหลด */
-  stroke-width: 3px;
-  fill: none;
-  rx: 1em;
-  ry: 1em;
-  stroke-dasharray: 0 100;
-}
-
-.button:focus .loading {
-  transition: stroke 0.5s 4.5s, stroke-dasharray 5s 0.2s ease-out;
-  stroke: #2ecc71; /* เปลี่ยนเป็นสีเขียวเมื่อโหลดเสร็จ */
-  stroke-dasharray: 100 0;
-}
-
-.done {
-  fill: none;
-  stroke: #2ecc71;
-  stroke-width: 2px;
-  stroke-dasharray: 0 100;
-}
-
-.button:focus .done-cloud {
-  transition: stroke-dasharray 0.5s 5.2s ease-out;
-  stroke-dasharray: 100 0;
-}
-
-.button:focus .done-check {
-  transition: stroke-dasharray 0.4s 5.7s ease-out;
-  stroke-dasharray: 100 0;
+.btn-video:active {
+    transform: translateY(-1px) scale(0.98);
 }
 
 /* จัดส่วนติดต่อ (Contact) */
@@ -447,6 +365,39 @@ footer {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* ส่วนปรับปรุงสภาพอากาศให้เข้ากับดีไซน์หลัก */
+.weather-box {
+    background: rgba(26, 58, 95, 0.9); /* สีน้ำเงินหม้อห้อม เหมือน date-box */
+    border: 2px solid var(--secondary-color); /* ขอบสีไม้สัก */
+    padding: 10px 25px;
+    border-radius: 50px;
+    color: #fff; /* ข้อความสีขาว */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.weather-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(212, 163, 115, 0.3);
+}
+
+#weatherIcon {
+    font-size: 1.2rem;
+    color: var(--secondary-color); /* ไอคอนสีไม้สักให้ดูเด่น */
+}
+
+#tempValue {
+    font-weight: bold;
+    color: #fff;
+}
+
+#weatherDesc {
+    font-weight: bold;
+    color: var(--secondary-color); /* ข้อความสถานะสีไม้สัก */
+}
 /* =========================================
    7. Advanced Falling Leaves (Fixed Background)
    ========================================= */
@@ -530,4 +481,42 @@ footer {
         top: 110%;
         transform: translateX(0) rotate(360deg);
     }
+}
+
+/* =========================================
+   8. Back to Top Button
+   ========================================= */
+#backToTop {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    transform: translateY(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#backToTop.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#backToTop:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-5px);
 }
