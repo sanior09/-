@@ -165,4 +165,13 @@ const updateWeather = async () => {
 // เรียกใช้งาน
 updateWeather();
 setInterval(updateWeather, 600000); // อัปเดตทุก 10 นาที
+
+// === 6. LOADING SCREEN ===
+window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        // หน่วงเวลาเล็กน้อยเพื่อให้เห็น Animation (0.5 วินาที)
+        setTimeout(() => loadingScreen.classList.add('loaded'), 500);
+    }
+});
     
