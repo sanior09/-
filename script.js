@@ -48,12 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // ปรับแต่ง UI เล็กน้อย
             btnContact.textContent = isHidden ? 'แสดงช่องทางติดต่อ' : 'ซ่อนช่องทางติดต่อ';
-            
-            if (!isHidden) {
-                contactDetails.style.opacity = "0";
-                contactDetails.style.transition = "opacity 0.4s ease";
-                requestAnimationFrame(() => contactDetails.style.opacity = "1");
-            }
         });
     }
 

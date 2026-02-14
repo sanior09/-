@@ -7,6 +7,8 @@
     --accent-color: #eb4d4b;     /* สีแดงสำหรับปุ่มวิดีโอ */
     --bg-color: #F7F7F7;         /* สีครีมอ่อน สบายตา */
     --text-color: #333;
+    --card-bg: #ffffff;          /* สีพื้นหลังการ์ด */
+    --shadow-color: rgba(0,0,0,0.05); /* สีเงา */
     --transition: all 0.3s ease;
 }
 
@@ -26,8 +28,11 @@ body {
    2. Header & Navigation
    ========================================= */
 header {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/482235182_1208223483993876_5591956520544238039_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=AJMVFaFdVlkQ7kNvwGDncmY&_nc_oc=AdlI_EpA1e6Nj_ARq7m_Sp8VqZbMwt22K0lTo6nyN_xjGFCL0wljnEawIHSfKSANA-Q&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=9sE9QzdO4rvejhFSzEe_ng&oh=00_AftDxgIa_2ZPQUAvp0i7caOOFBZryWJNlDGLc8rZHEpVOw&oe=6994D8A1') no-repeat center center/cover;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                      url('https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/482235182_1208223483993876_5591956520544238039_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=AJMVFaFdVlkQ7kNvwGDncmY&_nc_oc=AdlI_EpA1e6Nj_ARq7m_Sp8VqZbMwt22K0lTo6nyN_xjGFCL0wljnEawIHSfKSANA-Q&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=9sE9QzdO4rvejhFSzEe_ng&oh=00_AftDxgIa_2ZPQUAvp0i7caOOFBZryWJNlDGLc8rZHEpVOw&oe=6994D8A1');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     height: 60vh;
     display: flex;
     align-items: center;
@@ -47,6 +52,7 @@ nav {
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     padding: 5px 0;
+    align-items: center;
 }
 
 nav a {
@@ -102,24 +108,26 @@ nav a:active {
    3. News Ticker
    ========================================= */
 .news-ticker {
-    background: #fff;
+    background: var(--card-bg);
     padding: 10px 0;
     overflow: hidden;
     border-bottom: 2px solid var(--secondary-color);
-    text-align: center;
 }
 
 .ticker-content {
     display: inline-block;
     white-space: nowrap;
+    padding-left: 100%;
+    will-change: transform;
     animation: ticker 30s linear infinite;
     font-weight: bold;
-    color: var(--primary-color);
+    color: #B8860B; /* สีทองเข้ม (Dark Goldenrod) */
+    text-shadow: 0px 1px 1px rgba(0,0,0,0.2); /* เพิ่มเงาบางๆ ให้ดูมีมิติเหมือนทองจริง */
 }
 
 @keyframes ticker {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
 }
 
 /* =========================================
@@ -138,8 +146,11 @@ section {
 }
 
 section h2 {
+    font-family: 'Charm', cursive;
+    font-size: 3.5rem;
     margin-bottom: 20px;
     color: var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 .subtitle {
@@ -157,10 +168,10 @@ section h2 {
 
 /* ปรับแต่ง Card ให้อยู่กึ่งกลาง */
 .card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px var(--shadow-color);
     transition: var(--transition);
     display: flex;
     flex-direction: column;
@@ -170,13 +181,14 @@ section h2 {
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 30px var(--shadow-color);
 }
 
 .place-img {
     width: 100%;
-    height: 220px;
+    height: 240px;
     object-fit: cover;
+    display: block;
     transition: transform 0.5s ease;
 }
 
@@ -193,6 +205,8 @@ section h2 {
 }
 
 .card-body h3 {
+    font-family: 'Charm', cursive;
+    font-size: 1.8rem;
     margin-bottom: 10px;
 }
 
@@ -203,7 +217,7 @@ section h2 {
 
 /* ปุ่มวิดีโอ ปรับให้อยู่กึ่งกลาง */
 .video-btn, .btn-video {
-    background: linear-gradient(135deg, var(--accent-color), #ff7675);
+    background: linear-gradient(135deg, #66bb6a, #2e7d32); /* Nature Green Gradient */
     color: white;
     border: none;
     padding: 12px 28px;
@@ -211,36 +225,76 @@ section h2 {
     cursor: pointer;
     font-weight: bold;
     font-size: 1rem;
-    margin-top: 15px;
+    margin-top: auto;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* เอฟเฟกต์เด้งดึ๋ง */
     display: inline-flex;
     align-items: center;
+    justify-content: center; /* จัดข้อความและไอคอนในปุ่มให้อยู่กลาง */
     gap: 8px;
-    box-shadow: 0 4px 15px rgba(235, 77, 75, 0.3);
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
 }
 
 .btn-video:hover {
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(235, 77, 75, 0.5);
+    box-shadow: 0 0 20px rgba(102, 187, 106, 0.6);
 }
 
 .btn-video:active {
-    transform: translateY(-1px) scale(0.98);
+    transform: translateY(2px) scale(0.95);
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
 }
 
 /* จัดส่วนติดต่อ (Contact) */
 #contactDetails {
-    margin-top: 20px;
+    margin-top: 35px;
+    background: var(--card-bg);
+    padding: 30px 50px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px var(--shadow-color);
+    display: inline-block;
+    border-top: 5px solid var(--secondary-color); /* แถบสีไม้สัก */
+    position: relative;
+    
+    /* Animation Properties */
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* เอฟเฟกต์สมูทแบบ Slide */
+    max-height: 500px; /* ความสูงสูงสุดที่คาดว่าเนื้อหาจะไม่เกินนี้ */
+    opacity: 1;
+    transform: translateY(0);
+    overflow: hidden;
+}
+
+/* สถานะซ่อน (Override global .hidden เพื่อให้ Animate ได้) */
+#contactDetails.hidden {
+    display: inline-block; 
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-20px); /* เลื่อนขึ้นไปนิดหน่อยตอนซ่อน */
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    border-top-width: 0;
+    box-shadow: none;
 }
 
 #btnContact {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), #2a4d7a);
     color: white;
     border: none;
-    padding: 12px 30px;
-    border-radius: 5px;
+    padding: 15px 40px;
+    border-radius: 50px;
     cursor: pointer;
     font-family: 'Sarabun', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(26, 58, 95, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: block; /* เปลี่ยนเป็น Block เพื่อให้ใช้ margin auto ได้ */
+    margin: 25px auto 0; /* จัดกึ่งกลางแนวนอน */
+}
+
+#btnContact:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(26, 58, 95, 0.5);
 }
 
 /* =========================================
@@ -401,22 +455,6 @@ footer {
 /* =========================================
    7. Advanced Falling Leaves (Fixed Background)
    ========================================= */
-.leaf-container {
-    position: fixed; /* ล็อกตำแหน่งไว้กับหน้าจอ */
-    top: 0;
-    left: 0;
-    width: 100vw;    /* ใช้ vw เพื่อให้เต็มความกว้างหน้าจอแน่นอน */
-    height: 100vh;   /* ใช้ vh เพื่อให้เต็มความสูงหน้าจอแน่นอน */
-    pointer-events: none; /* ยอมให้เมาส์คลิกทะลุไปกดปุ่มข้างหลังได้ */
-    z-index: -1;     /* ให้อยู่หลังสุดของเนื้อหา */
-    overflow: hidden;
-    background-color: transparent; /* มั่นใจว่าไม่บังพื้นหลังหลัก */
-}
-
-.leaf {
-    position: absolute;
-    /* ... ส่วนอื่นคงเดิม ... */
-}
 .leaf-container {
     position: fixed;
     top: 0;
