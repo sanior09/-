@@ -1,177 +1,279 @@
-/**
- * HUG PHRAE - Optimized Script
- * ประสิทธิภาพสูงขึ้นด้วย Intersection Observer และโค้ดที่กระชับกว่าเดิม
- */
+// พิกัดจังหวัดแพร่ (Latitude, Longitude)
+const WEATHER_API_URL = "https://api.open-meteo.com/v1/forecast?latitude=18.1446&longitude=100.1403&current_weather=true&timezone=Asia%2FBangkok";
 
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // === 1. VIDEO MODAL LOGIC ===
-    const modal = document.getElementById("videoModal");
-    const videoPlayer = document.getElementById("videoPlayer");
-    const closeBtn = document.querySelector(".close-modal");
-    const videoButtons = document.querySelectorAll(".btn-video, .video-btn");
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. เริ่มทำงานนาฬิกา
+    updateClock();
+    setInterval(updateClock, 1000);
 
-    const toggleModal = (show = false, videoId = "") => {
-        if (!modal || !videoPlayer) return;
+    // 2. ดึงข้อมูลสภาพอากาศ
+    getWeather();
 
-        if (show && videoId) {
-            videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden";
-        } else {
-            modal.style.display = "none";
-            videoPlayer.src = ""; // ปิดวิดีโอทันที
-            document.body.style.overflow = "";
-        }
-    };
+    // 3. ตั้งค่าการทำงานของปุ่มต่างๆ
+    setupUI();
 
-    videoButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            const id = button.dataset.video || button.dataset.videoId;
-            toggleModal(true, id);
-        });
-    });
-
-    // ปิด Modal ด้วยวิธีต่างๆ
-    closeBtn?.addEventListener("click", () => toggleModal(false));
-    window.addEventListener("click", (e) => e.target === modal && toggleModal(false));
-    window.addEventListener("keydown", (e) => e.key === "Escape" && toggleModal(false));
-
-
-    // === 2. CONTACT REVEAL (Simple Toggle) ===
-    const btnContact = document.getElementById('btnContact');
-    const contactDetails = document.getElementById('contactDetails');
-
-    if (btnContact && contactDetails) {
-        btnContact.addEventListener('click', () => {
-            const isHidden = contactDetails.classList.toggle('hidden');
-            
-            // ปรับแต่ง UI เล็กน้อย
-            btnContact.textContent = isHidden ? 'แสดงช่องทางติดต่อ' : 'ซ่อนช่องทางติดต่อ';
-        });
-    }
-
-
-    // === 3. SCROLL REVEAL (Intersection Observer API) ===
-    // วิธีนี้ดีกว่าการใช้ window.addEventListener('scroll') เพราะไม่กินสเปคเครื่อง
-    const revealOption = {
-        threshold: 0.15, // เริ่มแสดงเมื่อ Element โผล่มา 15%
-        rootMargin: "0px 0px -50px 0px"
-    };
-
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("active");
-                observer.unobserve(entry.target); // ทำงานครั้งเดียวแล้วเลิกตาม (Performance)
-            }
-        });
-    }, revealOption);
-
-    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
-
-
-    // === 4. SMOOTH SCROLL & ACTIVE NAV ===
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    
-    navLinks.forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            
-            if (target) {
-                const navHeight = document.querySelector('nav').offsetHeight;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - (navHeight - 10);
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // === 5. BACK TO TOP BUTTON ===
-    const backToTopBtn = document.getElementById("backToTop");
-
-    if (backToTopBtn) {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add("show");
-            } else {
-                backToTopBtn.classList.remove("show");
-            }
-        });
-
-        backToTopBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
+    // 4. เพิ่มข้อมูลเวลาเปิด-ปิด
+    addOpeningHours();
 });
-// --- ฟังก์ชันนาฬิกาและวันที่ ---
-    const updateDateTime = () => {
-        const now = new Date();
-        const dayNames = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"];
-        const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
 
-        const dayName = dayNames[now.getDay()];
-        const day = now.getDate();
-        const month = monthNames[now.getMonth()];
-        const year = now.getFullYear() + 543; // แปลงเป็น พ.ศ.
-        
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-
-        if(document.getElementById('dayName')) {
-            document.getElementById('dayName').textContent = dayName;
-            document.getElementById('fullDate').textContent = `ที่ ${day} ${month} ${year}`;
-            document.getElementById('liveTime').textContent = `🕒 ${hours}:${minutes}:${seconds}`;
-        }
-    };
-
-    updateDateTime();
-    setInterval(updateDateTime, 1000); // อัปเดตทุกวินาที
-    // เพิ่มฟังก์ชันดึงสภาพอากาศ
-const updateWeather = async () => {
-    try {
-        // พิกัดละติจูด/ลองจิจูด ของ จ.แพร่
-        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=18.1446&longitude=100.1403&current_weather=true');
-        const data = await response.json();
-        
-        const temp = Math.round(data.current_weather.temperature);
-        const code = data.current_weather.weathercode;
-        
-        // อัปเดตตัวเลขหน้าเว็บ
-        document.getElementById('tempValue').textContent = temp;
-        
-        // เปลี่ยนไอคอนและคำอธิบายตามสภาพอากาศจริง
-        let icon = "☀️";
-        let desc = "ท้องฟ้าแจ่มใส";
-
-        if (code > 0 && code <= 3) { icon = "⛅"; desc = "มีเมฆบางส่วน"; }
-        else if (code >= 45 && code <= 48) { icon = "🌫️"; desc = "มีหมอกลง"; }
-        else if (code >= 51 && code <= 67) { icon = "🌧️"; desc = "ฝนตกโปรยปราย"; }
-        else if (code >= 71) { icon = "⛈️"; desc = "ฝนฟ้าคะนอง"; }
-
-        document.getElementById('weatherIcon').textContent = icon;
-        document.getElementById('weatherDesc').textContent = desc;
-
-    } catch (error) {
-        document.getElementById('weatherDesc').textContent = "เช็คสภาพอากาศไม่ได้";
-    }
-};
-
-// เรียกใช้งาน
-updateWeather();
-setInterval(updateWeather, 600000); // อัปเดตทุก 10 นาที
-
-// === 6. LOADING SCREEN ===
 window.addEventListener('load', () => {
+    // ซ่อนหน้า Loading Screen เมื่อโหลดเสร็จ
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
-        // หน่วงเวลาเล็กน้อยเพื่อให้เห็น Animation (0.5 วินาที)
-        setTimeout(() => loadingScreen.classList.add('loaded'), 500);
+        setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.2s ease';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 200);
+        }, 500); // ลดเวลาการรอจาก 2 วินาที เหลือ 0.5 วินาที
     }
 });
+
+// ฟังก์ชันนาฬิกา
+function updateClock() {
+    const now = new Date();
+    const days = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
+    const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+
+    const dayName = days[now.getDay()];
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear() + 543; // พ.ศ.
+
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const dayNameEl = document.getElementById('dayName');
+    const fullDateEl = document.getElementById('fullDate');
+    const liveTimeEl = document.getElementById('liveTime');
+
+    if (dayNameEl) dayNameEl.textContent = `วัน${dayName}`;
+    if (fullDateEl) fullDateEl.textContent = `${date} ${month} ${year}`;
+    if (liveTimeEl) liveTimeEl.textContent = `${hours}:${minutes}:${seconds}`;
+}
+
+// ฟังก์ชันดึงสภาพอากาศ
+async function getWeather() {
+    try {
+        const response = await fetch(WEATHER_API_URL);
+        const data = await response.json();
+        
+        if (data.current_weather) {
+            const temp = Math.round(data.current_weather.temperature);
+            const weatherCode = data.current_weather.weathercode;
+            
+            document.getElementById('tempValue').textContent = temp;
+            document.getElementById('weatherDesc').textContent = interpretWeatherCode(weatherCode);
+            document.getElementById('weatherIcon').textContent = getWeatherIcon(weatherCode);
+        }
+    } catch (error) {
+        console.error("Error fetching weather:", error);
+        document.getElementById('weatherDesc').textContent = "ไม่สามารถโหลดข้อมูล";
+    }
+}
+
+function interpretWeatherCode(code) {
+    const codes = {
+        0: "ท้องฟ้าแจ่มใส", 1: "มีเมฆบางส่วน", 2: "มีเมฆเป็นส่วนมาก", 3: "มีเมฆมากปกคลุม",
+        45: "มีหมอก", 48: "มีหมอกหนาจัด", 51: "มีฝนปรอยๆ", 53: "มีฝนตกปานกลาง",
+        55: "มีฝนตกหนัก", 61: "มีฝนตกเล็กน้อย", 63: "มีฝนตกปานกลาง", 65: "มีฝนตกหนัก",
+        80: "มีฝนตกเป็นระลอก", 81: "มีฝนตกหนัก", 82: "มีฝนตกหนักมาก",
+        95: "มีฝนฟ้าคะนอง", 96: "ฝนฟ้าคะนองและลูกเห็บ", 99: "ฝนฟ้าคะนองรุนแรง"
+    };
+    return codes[code] || "ไม่มีข้อมูล";
+}
+
+function getWeatherIcon(code) {
+    if (code === 0) return "☀️";
+    if ([1, 2, 3].includes(code)) return "⛅";
+    if ([45, 48].includes(code)) return "🌫️";
+    if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return "🌧️";
+    if ([95, 96, 99].includes(code)) return "⚡";
+    return "☁️";
+}
+
+function setupUI() {
+    // ปุ่มติดต่อ
+    const btnContact = document.getElementById('btnContact');
+    const contactDetails = document.getElementById('contactDetails');
+    if (btnContact && contactDetails) {
+        btnContact.addEventListener('click', () => {
+            contactDetails.classList.toggle('hidden');
+            btnContact.textContent = contactDetails.classList.contains('hidden') ? 'แสดงช่องทางติดต่อ' : 'ซ่อนช่องทางติดต่อ';
+        });
+    }
+
+    // Hamburger Menu (เมนูมือถือ)
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        // ปิดเมนูเมื่อคลิกลิงก์
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('active'));
+        });
+    }
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) backToTop.classList.add('show');
+            else backToTop.classList.remove('show');
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // Video Modal Logic
+    const modal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const closeModal = document.querySelector('.close-modal');
     
+    document.querySelectorAll('.btn-video').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const videoId = btn.getAttribute('data-video');
+            if (videoId && modal && videoPlayer) {
+                videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                modal.style.display = 'block';
+            }
+        });
+    });
+
+    if (closeModal && modal && videoPlayer) {
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+            videoPlayer.src = '';
+        });
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                videoPlayer.src = '';
+            }
+        });
+    }
+
+    // Scroll Reveal Animation
+    const reveals = document.querySelectorAll('.reveal');
+    const revealOnScroll = () => {
+        const windowHeight = window.innerHeight;
+        const elementVisible = 150;
+        reveals.forEach(reveal => {
+            const elementTop = reveal.getBoundingClientRect().top;
+            if (elementTop < windowHeight - elementVisible) {
+                reveal.classList.add('active');
+            }
+        });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Trigger once on load
+}
+
+// ฟังก์ชันเพิ่มเวลาเปิด-ปิด ให้กับการ์ดสถานที่
+function addOpeningHours() {
+    const cards = document.querySelectorAll('#places .card');
+    
+    const placesData = {
+        "วัดพระธาตุช่อแฮ": { time: "06:00 - 18:00 น.", days: "เปิดทุกวัน", phone: "054-599-209" },
+        "คุ้มวงศ์บุรี": { time: "09:00 - 17:00 น.", days: "เปิดทุกวัน", phone: "054-620-153" },
+        "อุทยานแพะเมืองผี": { time: "08:30 - 16:30 น.", days: "เปิดทุกวัน", phone: "054-511-162" },
+        "พิพิธภัณฑ์คุ้มเจ้าหลวง": { time: "08:30 - 16:30 น.", days: "เปิดทุกวัน", phone: "054-511-411" },
+        "วัดพระธาตุสุโทนฯ": { time: "06:00 - 18:00 น.", days: "เปิดทุกวัน", phone: "054-645-263" },
+        "บ้านนาคูหา": { time: "08:00 - 17:00 น.", days: "เปิดทุกวัน", phone: "084-047-6460" },
+        "กาดพระนอน": { time: "15:00 - 20:00 น.", days: "เฉพาะวันเสาร์", phone: "054-511-060" },
+        "วัดจอมสวรรค์": { time: "08:00 - 17:00 น.", days: "เปิดทุกวัน", phone: "054-521-127" },
+        "อ่างเก็บน้ำแม่สาย": { time: "06:00 - 18:00 น.", days: "เปิดทุกวัน", phone: "054-521-127" },
+        "บ้านทุ่งโฮ้ง": { time: "08:00 - 17:00 น.", days: "เปิดทุกวัน", phone: "054-624-377" },
+        "น้ำตกแม่เกิ๋ง": { time: "08:00 - 16:30 น.", days: "เปิดทุกวัน", phone: "054-556-763" },
+        "ถ้ำผานางคอย": { time: "08:30 - 17:00 น.", days: "เปิดทุกวัน", phone: "054-501-722" }
+    };
+
+    const locationLinks = {
+        "วัดพระธาตุช่อแฮ": "https://maps.app.goo.gl/9A1RbyZhDxWiWXbX8",
+        "คุ้มวงศ์บุรี": "https://maps.app.goo.gl/7gTsbGHqNHeYcfFz6",
+        "อุทยานแพะเมืองผี": "https://maps.app.goo.gl/BtpUfwjE2qcrvfCx9",
+        "พิพิธภัณฑ์คุ้มเจ้าหลวง": "https://maps.app.goo.gl/CnHk1zmoSPsZV57M7",
+        "วัดพระธาตุสุโทนฯ": "https://maps.app.goo.gl/y6yMMMhpUvhgTW388",
+        "บ้านนาคูหา": "https://maps.app.goo.gl/e7tsYsLKa9o4i1j16",
+        "กาดพระนอน": "https://maps.app.goo.gl/HHooDh9hFZjgyP4z7",
+        "วัดจอมสวรรค์": "https://maps.app.goo.gl/ruV3hxYkufX5qqVs6",
+        "อ่างเก็บน้ำแม่สาย": "https://maps.app.goo.gl/W7jJX4JjmW1ZvWBA8",
+        "บ้านทุ่งโฮ้ง": "https://maps.app.goo.gl/6RudnF6aiuATVjeP9",
+        "น้ำตกแม่เกิ๋ง": "https://maps.app.goo.gl/hgezCeLfG6EPPeV58",
+        "ถ้ำผานางคอย": "https://maps.app.goo.gl/wppJEQEFgMFmUQj88"
+    };
+
+    cards.forEach(card => {
+        const titleEl = card.querySelector('h3');
+        if (!titleEl) return;
+        
+        const title = titleEl.textContent.trim();
+        const body = card.querySelector('.card-body');
+        // หาปุ่มวิดีโอเพื่อจะแทรกข้อมูลไว้ข้างบนปุ่ม
+        const btn = card.querySelector('.btn-video') || card.querySelector('.video-btn'); 
+
+        const cleanTitle = title.replace(/^\d+\.\s*/, '').trim(); // ตัดเลขลำดับออก เช่น "1. "
+        
+        // ดึงข้อมูลจาก placesData ถ้าไม่มีให้ใช้ค่า Default
+        const data = placesData[cleanTitle] || { 
+            time: "08:00 - 17:00 น.", 
+            days: "เปิดทุกวัน", 
+            phone: "054-521-127" // เบอร์ ททท. แพร่
+        };
+
+        // สร้างลิงก์ Google Maps (ใช้ลิงก์ที่กำหนดไว้ หรือค้นหาถ้าไม่มี)
+        const mapUrl = locationLinks[cleanTitle] || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cleanTitle + ' แพร่')}`;
+
+        // ตรวจสอบว่าเป็นวันเสาร์-อาทิตย์หรือไม่ ถ้าใช่ให้เปลี่ยนสีเป็นแดง ถ้าวันธรรมดาให้เป็นสีเขียว
+        const isWeekend = data.days.includes('เสาร์') || data.days.includes('อาทิตย์');
+        const color = isWeekend ? '#d32f2f' : '#2e7d32'; // แดง หรือ เขียว
+        const daysStyle = `style="color: ${color}; font-weight: bold;"`;
+
+        // ตรวจสอบสถานะ เปิด/ปิด (Real-time)
+        let statusHtml = '';
+        try {
+            const now = new Date();
+            const currentDay = now.getDay(); // 0 = อาทิตย์, 6 = เสาร์
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+
+            // ตรวจสอบวันเปิด (รองรับ "ทุกวัน", "เสาร์", "อาทิตย์")
+            let isDayOpen = data.days.includes("ทุกวัน") || 
+                           (data.days.includes("เสาร์") && currentDay === 6) ||
+                           (data.days.includes("อาทิตย์") && currentDay === 0);
+
+            // ตรวจสอบเวลา (ดึงตัวเลขจาก string เช่น "06:00 - 18:00")
+            const timeMatch = data.time.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
+            if (timeMatch && isDayOpen) {
+                const openTime = parseInt(timeMatch[1]) * 60 + parseInt(timeMatch[2]);
+                const closeTime = parseInt(timeMatch[3]) * 60 + parseInt(timeMatch[4]);
+                
+                if (currentTime >= openTime && currentTime < closeTime) {
+                    statusHtml = '<div style="width: 100%; text-align: center; color: #2e7d32; font-weight: bold; font-size: 0.9rem; margin-top: 5px; display: flex; align-items: center; justify-content: center;"><span class="status-dot"></span> เปิดอยู่ (Open Now)</div>';
+                } else {
+                    statusHtml = '<div style="width: 100%; text-align: center; color: #d32f2f; font-weight: bold; font-size: 0.9rem; margin-top: 5px;">● ปิดทำการ (Closed)</div>';
+                }
+            } else {
+                statusHtml = '<div style="width: 100%; text-align: center; color: #d32f2f; font-weight: bold; font-size: 0.9rem; margin-top: 2px;">● ปิดทำการ (Closed)</div>';
+            }
+        } catch (e) { console.error(e); }
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'opening-info';
+        infoDiv.innerHTML = `
+            <div class="info-item"><span class="icon">📅</span> <span ${daysStyle}>${data.days}</span></div>
+            <div class="info-item" style="flex-wrap: wrap;"><span class="icon">⏰</span> ${data.time} ${statusHtml}</div>
+            <div class="info-item">
+                <span class="icon">📞</span> <a href="tel:${data.phone.replace(/-/g,'')}">${data.phone}</a>
+                <a href="${mapUrl}" target="_blank" class="map-link" title="ดูแผนที่">📍 แผนที่</a>
+            </div>
+        `;
+        
+        if (btn && body) body.insertBefore(infoDiv, btn);
+        else if (body) body.appendChild(infoDiv);
+    });
+}

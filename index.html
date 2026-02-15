@@ -9,7 +9,7 @@
     <title>ฮักเมืองแพร่ - เที่ยววิถีล้านนา</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://www.pngarts.com/files/1/Baby-Elephant-PNG-Download-Image.png" type="image/x-icon">
+    <link rel="icon" href="https://www.pngarts.com/files/1/Baby-Elephant-PNG-Download-Image.png" type="image/png">
 </head>
 
 <body>
@@ -29,7 +29,7 @@
             </div>
             <div class="floor-shadow"></div>
         </div>
-        <h2 class="loading-text">กำลังเดินทางสู่เมืองแพร่...</h2>
+        <h2 class="loading-text" style="font-family: 'Sarabun', sans-serif;">กำลังเดินทางสู่เมืองแพร่...</h2>
     </div>
 
     <header>
@@ -37,13 +37,21 @@
     </header>
 
     <nav id="navbar">
-        <a href="#about">เกี่ยวกับ</a>
-        <a href="#places">สถานที่ท่องเที่ยว</a>
-        <a href="#food">ของกินเมืองแพร่</a>
-        <a href="#souvenirs">ของฝาก</a>
-        <a href="#festivals">ประเพณี</a>
-        <a href="#map">แผนที่</a>
-        <a href="#contact">ติดต่อ</a>
+        <div class="nav-logo">ฮักเมืองแพร่</div>
+        <div class="hamburger" id="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="#about">เกี่ยวกับ</a>
+            <a href="#places">สถานที่ท่องเที่ยว</a>
+            <a href="#food">ของกินเมืองแพร่</a>
+            <a href="#souvenirs">ของฝาก</a>
+            <a href="#festivals">ประเพณี</a>
+            <a href="#map">แผนที่</a>
+            <a href="#contact">ติดต่อ</a>
+        </div>
     </nav>
 
     <div class="news-ticker">
@@ -60,11 +68,12 @@
                     <span id="fullDate"></span>
                 </div>
                 <div class="time-box">
+                    <span>🕒</span>
                     <span id="liveTime"></span>
                 </div>
                 <div class="weather-box">
     <span id="weatherIcon">☁️</span>
-    <span id="tempValue">--</span>°C
+    <span>อุณหภูมิ <span id="tempValue">--</span>°C</span>
     <span id="weatherDesc">กำลังโหลด...</span>
 </div>
             </div>
@@ -80,7 +89,7 @@
                 <div class="card reveal">
                     <img src="https://files.thailandtourismdirectory.go.th/assets/upload/2023/11/28//aa872bc5-cabc-46db-9209-e51815b0b901.jpg" alt="วัดพระธาตุช่อแฮ" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/DHMZSw4MCxymYqCZ8?g_st=ic" target="_blank">1. วัดพระธาตุช่อแฮ 📍</a></h3>
+                        <h3>1. วัดพระธาตุช่อแฮ</h3>
                         <p>พระธาตุคู่บ้านคู่เมืองแพร่ และเป็นพระธาตุประจำปีเกิดของผู้ที่เกิดปีขาล องค์พระธาตุบุด้วยทองดอกบวบงดงาม</p>
                         <button class="btn-video" data-video="7E60Yo_MXas">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -91,7 +100,7 @@
                 <div class="card reveal">
                     <img src="https://images.unsplash.com/photo-1627664819818-e147d6221422?q=80&w=1000&auto=format&fit=crop" alt="คุ้มวงศ์บุรี" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/j6VyDwwWKrNcZnSx8" target="_blank">2. คุ้มวงศ์บุรี 📍</a></h3>
+                        <h3>2. คุ้มวงศ์บุรี</h3>
                         <p>อาคารไม้สักทอง 2 ชั้น สีชมพูอ่อน สถาปัตยกรรมไทยผสมยุโรป โดดเด่นด้วยลวดลายไม้ฉลุ "ขนมปังขิง"</p>
                         <button class="btn-video" data-video="x8AG4ZmRYKU">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -102,7 +111,7 @@
                 <div class="card reveal">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0xNgm-1X-492qbK04HZgShbCR6MtQtkbGKg&s" alt="แพะเมืองผี" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/BtpUfwjE2qcrvfCx9" target="_blank">3. อุทยานแพะเมืองผี 📍</a></h3>
+                        <h3>3. อุทยานแพะเมืองผี</h3>
                         <p>ปรากฏการณ์ทางธรณีวิทยาที่เกิดจากการกัดเซาะของน้ำและลมจนกลายเป็นเสาดินรูปทรงแปลกตา มีตำนานเล่าขาน</p>
                         <button class="btn-video" data-video="VLM-DNxkN50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -113,7 +122,7 @@
                 <div class="card reveal">
                     <img src="https://www.phraepao.go.th/main/wp-content/uploads/2020/08/IMG_9141.jpg" alt="คุ้มเจ้าหลวง" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/CnHk1zmoSPsZV57M7" target="_blank">4. พิพิธภัณฑ์คุ้มเจ้าหลวง 📍</a></h3>
+                        <h3>4. พิพิธภัณฑ์คุ้มเจ้าหลวง</h3>
                         <p>อดีตที่ประทับของเจ้าเมืองแพร่ อาคารสถาปัตยกรรมสมัย ร.5 ที่ได้รับรางวัลอนุรักษ์ดีเด่น ใต้ถุนเคยใช้เป็นคุก</p>
                         <button class="btn-video" data-video="u3z71NYhGZk">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -124,7 +133,7 @@
                 <div class="card reveal">
                     <img src="https://cbtthailand.dasta.or.th/upload-file-api/Resources/RelateAttraction/Images/RAT540103/1.jpeg" alt="วัดพระธาตุสุโทน" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/y6yMMMhpUvhgTW388" target="_blank">5. วัดพระธาตุสุโทนฯ 📍</a></h3>
+                        <h3>5. วัดพระธาตุสุโทนฯ</h3>
                         <p>วัดที่รวมศิลปกรรมล้านนาจากหลายแห่งไว้ด้วยกัน มีพระพุทธรูปปางไสยาสน์ศิลปะพม่าที่งดงามขนาดใหญ่</p>
                         <button class="btn-video" data-video="AFZ-7LUPRkM">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -135,7 +144,7 @@
                 <div class="card reveal">
                     <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000&auto=format&fit=crop" alt="บ้านนาคูหา" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/e7tsYsLKa9o4i1j16" target="_blank">6. บ้านนาคูหา 📍</a></h3>
+                        <h3>6. บ้านนาคูหา</h3>
                         <p>หมู่บ้านกลางหุบเขา แหล่งผลิต "เตา" หรือสาหร่ายน้ำจืด มีพระพุทธรูปพระเจ้าต๋นหลวงกลางทุ่งนา</p>
                         <button class="btn-video" data-video="K2ofHQ_8suk">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -146,7 +155,7 @@
                 <div class="card reveal">
                     <img src="https://www.kadphranon.com/wp-content/uploads/2022/05/%E0%B8%81%E0%B8%B2%E0%B8%94%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%99%E0%B8%AD%E0%B8%99-%E0%B9%80%E0%B8%81%E0%B9%88%E0%B8%B2.jpg" alt="กาดพระนอน" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/HHooDh9hFZjgyP4z7" target="_blank">7. กาดพระนอน 📍</a></h3>
+                        <h3>7. กาดพระนอน</h3>
                         <p>ถนนคนเดินย่านเมืองเก่า เปิดเฉพาะวันเสาร์ เป็นแหล่งรวมอาหารพื้นถิ่นและผ้าหม้อห้อม</p>
                         <button class="btn-video" data-video="5zGNpJ7m_Ys">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -157,7 +166,7 @@
                 <div class="card reveal">
                     <img src="https://www.papaiwat.com/th/file/get/file/2019033083e593a5e317c3e28bab76be6ff1ee61140704.jpg" alt="วัดจอมสวรรค์" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/ruV3hxYkufX5qqVs6" target="_blank">8. วัดจอมสวรรค์ 📍</a></h3>
+                        <h3>8. วัดจอมสวรรค์</h3>
                         <p>วัดเก่าแก่ศิลปะไทยใหญ่ สร้างด้วยไม้สักทั้งหลัง หลังคาสถาปัตยกรรมทรงปราสาทซ้อนชั้น ประดับประดาไม้แกะสลัก</p>
                         <button class="btn-video" data-video="4aJw4wkoftc">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -168,7 +177,7 @@
                 <div class="card reveal">
                     <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1000&auto=format&fit=crop" alt="อ่างเก็บน้ำแม่สาย" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/W7jJX4JjmW1ZvWBA8" target="_blank">9. อ่างเก็บน้ำแม่สาย 📍</a></h3>
+                        <h3>9. อ่างเก็บน้ำแม่สาย</h3>
                         <p>จุดชมทิวทัศน์และพักผ่อนหย่อนใจยอดฮิตของชาวเมืองแพร่ ล้อมรอบด้วยขุนเขา บรรยากาศเงียบสงบ</p>
                         <button class="btn-video" data-video="TO3RfVyNTH0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -179,7 +188,7 @@
                 <div class="card reveal">
                     <img src="https://images.unsplash.com/photo-1444491741275-3747c53c99b4?q=80&w=1000&auto=format&fit=crop" alt="บ้านทุ่งโฮ้ง" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/6RudnF6aiuATVjeP9" target="_blank">10. บ้านทุ่งโฮ้ง 📍</a></h3>
+                        <h3>10. บ้านทุ่งโฮ้ง</h3>
                         <p>ต้นตำรับการทำผ้าหม้อห้อมเมืองแพร่ เดินเลือกซื้อเสื้อผ้าหม้อห้อมแฟชั่นและเรียนรู้วิธีการย้อมผ้าด้วยคราม</p>
                         <button class="btn-video" data-video="3vPrR5qEhFk">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -190,7 +199,7 @@
                 <div class="card reveal">
                     <img src="https://scontent.fbkk12-5.fna.fbcdn.net/v/t1.6435-9/65262278_2585270448152018_1722819469572571136_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=poKYGZEwFLQQ7kNvwHBiMT1&_nc_oc=AdlBbx9jkbdNloZLGGiG0LW2kWEffrODWy-4-uDa-Pcbob_6svSLHeJ49Zx4nIkaArw&_nc_zt=23&_nc_ht=scontent.fbkk12-5.fna&_nc_gid=_lnQkEbHByj4s4VNB-FGDA&oh=00_AfuSPEtkhow7N5-0e27oIcDQcmh7FzNdGVBwBpF1yJg4YA&oe=69B7D535" alt="น้ำตกแม่เกิ๋ง" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/hgezCeLfG6EPPeV58" target="_blank">11. น้ำตกแม่เกิ๋ง 📍</a></h3>
+                        <h3>11. น้ำตกแม่เกิ๋ง</h3>
                         <p>น้ำตกที่สวยงามตั้งอยู่ในอุทยานแห่งชาติเวียงโกศัย มีลักษณะเป็นชั้นๆ ไหลลดหลั่นกันลงมา ท่ามกลางธรรมชาติที่ร่มรื่น</p>
                         <button class="btn-video" data-video="3z0YXztkTyQ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -201,7 +210,7 @@
                 <div class="card reveal">
                     <img src="https://scontent.fbkk12-6.fna.fbcdn.net/v/t1.6435-9/65093903_2579850998693963_3529266706927058944_n.jpg?stp=dst-jpg_p180x540_tt6&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=oa8wkrfu5jQQ7kNvwEVAkGx&_nc_oc=AdnKxCTpmjLMrYaWHvknihTU2ZR6ZPDcHeXZkCCGzLtZWu6vUcv0YWbXyPQ0AQzEcWs&_nc_zt=23&_nc_ht=scontent.fbkk12-6.fna&_nc_gid=ozm_Xh3P9kr-n7GBP5zHzQ&oh=00_AfuFJSc1Qy5xGFA_2qUttfeJOm0ZUas_axjnKpWVSOTYkg&oe=69B7FE58" alt="ถ้ำผานางคอย" class="place-img" loading="lazy">
                     <div class="card-body">
-                        <h3><a href="https://maps.app.goo.gl/wppJEQEFgMFmUQj88" target="_blank">12. ถ้ำผานางคอย 📍</a></h3>
+                        <h3>12. ถ้ำผานางคอย</h3>
                         <p>ถ้ำหินปูนขนาดใหญ่ที่มีหินงอกหินย้อยสวยงามวิจิตรตระการตา และมีตำนานรักอมตะของนางอรพิมพ์ที่รอคอยคนรัก</p>
                         <button class="btn-video" data-video="UuyIu7HJjHA">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
@@ -331,7 +340,10 @@
     </div>
 </footer>
 
-    <button id="backToTop" title="กลับขึ้นด้านบน" style="background-color: #1a237e; color: white;">↑</button>
+    <button id="backToTop" title="กลับขึ้นด้านบน">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+    <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
 
     <div class="lantern-container">
         <div class="lantern"></div><div class="lantern"></div><div class="lantern"></div><div class="lantern"></div>

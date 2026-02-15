@@ -29,7 +29,7 @@ body {
    ========================================= */
 header {
     background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                      url('https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/482235182_1208223483993876_5591956520544238039_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=AJMVFaFdVlkQ7kNvwGDncmY&_nc_oc=AdlI_EpA1e6Nj_ARq7m_Sp8VqZbMwt22K0lTo6nyN_xjGFCL0wljnEawIHSfKSANA-Q&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=9sE9QzdO4rvejhFSzEe_ng&oh=00_AftDxgIa_2ZPQUAvp0i7caOOFBZryWJNlDGLc8rZHEpVOw&oe=6994D8A1');
+                      url("https://www.tatnewsthai.org/storage/ckfinder/userfiles/images/32.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -46,16 +46,30 @@ nav {
     background: rgba(26, 58, 95, 0.95); /* ใช้สีเดิมแต่เพิ่มความโปร่งใสเล็กน้อย */
     backdrop-filter: blur(10px); /* เอฟเฟกต์กระจกฝ้า */
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* เปลี่ยนจาก center เป็น space-between */
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    padding: 5px 0;
+    padding: 10px 20px;
     align-items: center;
 }
 
-nav a {
+.nav-logo {
+    font-family: 'Charm', cursive;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: bold;
+    display: none; /* ซ่อนบนจอใหญ่ */
+}
+
+.nav-links {
+    display: flex;
+    gap: 10px;
+    margin: 0 auto; /* จัดกึ่งกลาง */
+}
+
+.nav-links a {
     color: white;
     padding: 15px 25px;
     text-decoration: none;
@@ -66,7 +80,7 @@ nav a {
 }
 
 /* เอฟเฟกต์เส้นขีดล่าง (Underline Animation) */
-nav a::after {
+.nav-links a::after {
     content: '';
     position: absolute;
     bottom: 8px;
@@ -79,27 +93,65 @@ nav a::after {
     border-radius: 5px;
 }
 
-nav a:hover {
+.nav-links a:hover {
     color: var(--secondary-color);
     transform: translateY(-2px); /* ขยับขึ้นเล็กน้อยตอน Hover */
 }
 
-nav a:hover::after {
+.nav-links a:hover::after {
     width: 60%; /* ความยาวของเส้นเมื่อเมาส์ชี้ */
 }
 
 /* เพิ่ม Effect ตอนคลิก (Active State) */
-nav a:active {
+.nav-links a:active {
     transform: scale(0.9);
+}
+
+/* Hamburger Menu Style */
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
 }
 
 /* ปรับแต่งสำหรับมือถือ */
 @media (max-width: 768px) {
-    nav a {
+    .nav-logo { display: block; }
+    .hamburger { display: block; }
+    
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(26, 58, 95, 0.98);
+        flex-direction: column;
+        align-items: center;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+        margin: 0;
+    }
+
+    .nav-links.active {
+        max-height: 400px; /* ความสูงเมื่อเปิดเมนู */
+    }
+
+    .nav-links a {
         padding: 10px 12px;
         font-size: 0.85rem;
+        width: 100%;
+        text-align: center;
     }
-    nav a::after {
+    .nav-links a::after {
         bottom: 5px;
     }
 }
@@ -217,31 +269,107 @@ section h2 {
 
 /* ปุ่มวิดีโอ ปรับให้อยู่กึ่งกลาง */
 .video-btn, .btn-video {
-    background: linear-gradient(135deg, var(--primary-color), #5c6bc0); /* สีน้ำเงินหม้อห้อมไล่เฉด */
-    color: white; /* ตัวอักษรสีขาว */
-    border: none;
-    padding: 12px 28px;
+    background: var(--primary-color);
+    color: white;
+    border: 2px solid var(--primary-color);
+    padding: 12px 30px;
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
     font-size: 1rem;
     margin-top: auto;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* เอฟเฟกต์เด้งดึ๋ง */
+    transition: all 0.4s ease;
     display: inline-flex;
     align-items: center;
-    justify-content: center; /* จัดข้อความและไอคอนในปุ่มให้อยู่กลาง */
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(26, 58, 95, 0.3);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* สร้างพื้นหลังสีทองเลื่อนขึ้นมาเมื่อ Hover */
+.video-btn::before, .btn-video::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--secondary-color); /* สีทอง */
+    z-index: -1;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.video-btn:hover::before, .btn-video:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.video-btn:hover, .btn-video:hover {
+    color: white;
+    border-color: var(--secondary-color);
+    box-shadow: 0 8px 25px rgba(184, 134, 11, 0.4);
+    transform: translateY(-3px);
+}
+
+.video-btn:active, .btn-video:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* ข้อมูลเวลาเปิด-ปิด */
+.opening-info {
+    width: 100%;
+    margin: 10px 0 15px;
+    padding: 10px;
+    background-color: rgba(255, 253, 231, 0.6); /* สีครีมจางๆ */
+    border-radius: 10px;
+    border: 1px dashed var(--secondary-color); /* เส้นประสีทอง */
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 15px rgba(26, 58, 95, 0.4);
+    margin-bottom: 4px;
 }
 
-.btn-video:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 0 20px rgba(92, 107, 192, 0.6);
+.info-item a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
 }
 
-.btn-video:active {
-    transform: translateY(2px) scale(0.95);
-    box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
+.info-item a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* สไตล์ปุ่มแผนที่ */
+.map-link {
+    margin-left: 8px;
+    background-color: #fff;
+    color: var(--accent-color) !important; /* บังคับสีเขียว */
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid var(--accent-color);
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.map-link:hover {
+    background-color: var(--accent-color);
+    color: white !important;
+    transform: scale(1.05);
 }
 
 /* จัดส่วนติดต่อ (Contact) */
@@ -257,7 +385,7 @@ section h2 {
     
     /* Animation Properties */
     transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* เอฟเฟกต์สมูทแบบ Slide */
-    max-height: 500px; /* ความสูงสูงสุดที่คาดว่าเนื้อหาจะไม่เกินนี้ */
+    max-height: 500px;
     opacity: 1;
     transform: translateY(0);
     overflow: hidden;
@@ -339,7 +467,7 @@ section h2 {
 .reveal {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s ease-out;
+    transition: all 0.5s ease-out;
 }
 
 .reveal.active {
@@ -376,40 +504,42 @@ footer {
    Date & Time Widget (สไตล์หม้อห้อม-ล้านนา)
    ========================================= */
 .datetime-container {
-    margin-bottom: 30px; /* เพิ่มระยะห่างจากหัวข้อ h2 */
-    display: inline-flex;
+    margin-bottom: 30px;
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
 }
 
-.date-box, .time-box {
-    background: rgba(26, 58, 95, 0.9); /* สีน้ำเงินหม้อห้อมเข้ม */
+.date-box, .time-box, .weather-box {
+    background: linear-gradient(135deg, var(--primary-color), #00838f); /* ไล่สีน้ำเงินไปฟ้าอมเขียว */
     border: 2px solid var(--secondary-color); /* ขอบสีไม้สัก */
     padding: 10px 25px;
     border-radius: 50px;
     color: #fff;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.date-box:hover, .time-box:hover {
+.date-box:hover, .time-box:hover, .weather-box:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(212, 163, 115, 0.3);
 }
 
 #dayName {
     font-weight: bold;
-    color: var(--secondary-color); /* สีไม้สัก */
+    color: var(--secondary-color);
     margin-right: 8px;
 }
 
-#liveTime {
+#liveTime, #fullDate {
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-/* Animation ให้ค่อยๆ ปรากฏตอนเลื่อนมาถึง */
 .fade-in-up {
     animation: fadeInUp 1s ease-out;
 }
@@ -418,38 +548,19 @@ footer {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
-/* ส่วนปรับปรุงสภาพอากาศให้เข้ากับดีไซน์หลัก */
-.weather-box {
-    background: rgba(26, 58, 95, 0.9); /* สีน้ำเงินหม้อห้อม เหมือน date-box */
-    border: 2px solid var(--secondary-color); /* ขอบสีไม้สัก */
-    padding: 10px 25px;
-    border-radius: 50px;
-    color: #fff; /* ข้อความสีขาว */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.weather-box:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(212, 163, 115, 0.3);
-}
 
 #weatherIcon {
     font-size: 1.2rem;
-    color: var(--secondary-color); /* ไอคอนสีไม้สักให้ดูเด่น */
+    color: var(--secondary-color);
 }
 
 #tempValue {
     font-weight: bold;
     color: #fff;
 }
-
 #weatherDesc {
     font-weight: bold;
-    color: var(--secondary-color); /* ข้อความสถานะสีไม้สัก */
+    color: var(--secondary-color);
 }
 /* =========================================
    7. Floating Lanterns (Yi Peng Style)
@@ -544,14 +655,13 @@ footer {
     z-index: 99;
     border: none;
     outline: none;
-    background-color: var(--accent-color);
+    background: var(--primary-color); /* เปลี่ยนเป็นสีน้ำเงินหลัก */
     color: white;
     cursor: pointer;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
-    font-size: 24px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    border-radius: 12px; /* ทำให้เป็นสี่เหลี่ยมขอบมน */
+    box-shadow: 0 5px 15px rgba(26, 58, 95, 0.3);
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -561,6 +671,10 @@ footer {
     align-items: center;
 }
 
+#backToTop svg {
+    transition: transform 0.3s ease;
+}
+
 #backToTop.show {
     opacity: 1;
     visibility: visible;
@@ -568,8 +682,38 @@ footer {
 }
 
 #backToTop:hover {
-    background-color: var(--primary-color);
+    background: var(--secondary-color); /* เปลี่ยนเป็นสีทองเมื่อชี้ */
     transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(184, 134, 11, 0.4);
+}
+
+#backToTop:hover svg {
+    transform: translateY(-3px); /* ทำให้ลูกศรขยับขึ้น */
+}
+
+/* Tooltip ข้อความ "กลับขึ้นบน" */
+#backToTop::after {
+    content: 'กลับขึ้นบน';
+    position: absolute;
+    bottom: 120%; /* แสดงด้านบนของปุ่ม */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+#backToTop:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: 130%;
 }
 
 /* =========================================
@@ -587,7 +731,7 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
 }
 
 .elephant-loader {
@@ -699,3 +843,30 @@ footer {
 @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
 .loaded { opacity: 0; visibility: hidden; }
+
+/* Status Dot Animation (ไฟสถานะกระพริบ) */
+.status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #2e7d32; /* สีเขียว */
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 0 0 rgba(46, 125, 50, 1);
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 8px rgba(46, 125, 50, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(46, 125, 50, 0);
+    }
+}
