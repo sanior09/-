@@ -10,9 +10,354 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://www.pngarts.com/files/1/Baby-Elephant-PNG-Download-Image.png" type="image/png">
+    <style>
+        /* Modern Card Styles & Tilt Effect Preparation */
+        .card { 
+            position: relative; 
+            /* Add perspective for the 3D tilt effect */
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+
+        /* Spotlight Effect */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px; /* Should match the card's border-radius from style.css */
+            background: radial-gradient(
+                350px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.15),
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 2; /* On top of the image, below the text */
+        }
+        .card:hover::before {
+            opacity: 1;
+        }
+        .card-body { position: relative; z-index: 3; }
+        
+        .status-overlay {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .status-overlay.visible { opacity: 1; transform: translateY(0); }
+        .status-overlay.open { background-color: rgba(40, 167, 69, 0.95); }
+        .status-overlay.closed { background-color: rgba(220, 53, 69, 0.95); }
+        
+        .status-dot {
+            width: 8px; height: 8px; background: white; border-radius: 50%;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .category-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .info-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f3f5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.85rem;
+            color: #495057;
+        }
+        .info-text { display: flex; flex-direction: column; gap: 2px; }
+        .info-days { font-size: 0.75rem; color: #666; display: flex; align-items: center; gap: 4px; }
+        .info-time { display: flex; align-items: center; gap: 5px; font-weight: 500; }
+        .info-actions { display: flex; gap: 6px; }
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            color: #555;
+            border: 1px solid #dee2e6;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .action-btn:hover {
+            background: #339af0;
+            color: white;
+            border-color: #339af0;
+            transform: translateY(-2px);
+        }
+
+        /* Video Button Animation */
+        .btn-video {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-video:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes zoomOut {
+            from { transform: scale(1); opacity: 1; }
+            to { transform: scale(0.9); opacity: 0; }
+        }
+        #placeModal {
+            /* This animation will run when display is set to 'block' */
+            animation: fadeIn 0.3s ease-out;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+        #placeModal.closing {
+            animation: fadeOut 0.3s ease-in forwards;
+        }
+        #placeModal.closing .place-modal-content {
+            animation: zoomOut 0.3s ease-in forwards;
+        }
+
+
+        /* Place Detail Modal */
+        .place-modal-content {
+            max-width: 900px;
+            width: 90%;
+            padding: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .place-modal-header { position: relative; overflow: hidden; }
+        .place-modal-img { 
+            width: 100%; 
+            height: 300px; 
+            object-fit: cover; 
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .place-modal-content:hover .place-modal-img { transform: scale(1.05); }
+        
+        .place-modal-body { padding: 40px; background: #fff; }
+        .place-modal-title { 
+            margin: 0 0 15px 0; 
+            font-size: 2rem; 
+            color: #1a1a1a; 
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .place-modal-desc { color: #555; line-height: 1.8; margin-bottom: 30px; font-size: 1.05rem; }
+        
+        .place-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .place-info-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            color: #444; 
+            background: #f8f9fa;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            font-weight: 500;
+        }
+        
+        .place-modal-btn {
+            display: inline-block;
+            width: auto;
+            min-width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #339af0 0%, #228be6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(34, 139, 230, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .place-modal-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(34, 139, 230, 0.4); }
+        
+        .close-place-modal {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .close-place-modal:hover { background: white; transform: rotate(90deg); }
+
+        
+        @media (min-width: 768px) {
+            .place-modal-content { flex-direction: row; min-height: 500px; }
+            .place-modal-header { width: 45%; }
+            .place-modal-img { height: 100%; position: absolute; top: 0; left: 0; }
+            .place-modal-body { width: 55%; padding: 50px; overflow-y: auto; max-height: 90vh; }
+        }
+
+        /* Booking Links on Card */
+        .booking-links-card {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .booking-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .booking-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .booking-link.agoda { color: #fff; background: #ff6600; }
+        .booking-link.trip { color: #fff; background: #2979ff; }
+
+        /* Booking Links in Modal */
+        #modalBookingSection {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        #modalBookingSection h4 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-family: 'Sarabun', sans-serif;
+            font-weight: 700;
+        }
+
+        /* --- Cool Animations --- */
+        /* 1. Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, #ef4444, #f97316, #facc15, #4ade80, #3b82f6, #8b5cf6, #ec4899);
+            z-index: 9999;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 2. Pulse Animation for CTA Button */
+        @keyframes pulse-btn {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); transform: scale(1); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); transform: scale(1.05); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); transform: scale(1); }
+        }
+        .cta-btn.pulse {
+            animation: pulse-btn 2s infinite;
+        }
+
+
+        /* 3. Scroll Down Indicator */
+        .scroll-down-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.8);
+            border-radius: 50px;
+            opacity: 0.8;
+            z-index: 5;
+        }
+        .scroll-down-indicator::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            animation: scroll-wheel 2s infinite;
+        }
+        @keyframes scroll-wheel {
+            0% { top: 8px; opacity: 1; }
+            100% { top: 30px; opacity: 0; }
+        }
+
+    </style>
 </head>
 
 <body>
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgressBar" class="scroll-progress"></div>
+
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="elephant-loader">
@@ -36,8 +381,9 @@
         <div class="header-content fade-in-up">
             <h1>ฮักเมืองแพร่</h1>
             <p>สัมผัสเสน่ห์เมืองไม้สักและวิถีล้านนาตะวันออก</p>
-            <a href="#map" class="cta-btn">🚗 วิธีการเดินทาง</a>
+            <a href="#map" class="cta-btn pulse">🚗 วิธีการเดินทาง</a>
         </div>
+        <div class="scroll-down-indicator"></div>
     </header>
 
     <nav id="navbar">
@@ -50,6 +396,7 @@
         <div class="nav-links" id="navLinks">
             <a href="#about">เกี่ยวกับ</a>
             <a href="#places">สถานที่ท่องเที่ยว</a>
+            <a href="#accommodation">ที่พัก</a>
             <a href="#food">ของกินเมืองแพร่</a>
             <a href="#souvenirs">ของฝาก</a>
             <a href="#festivals">ประเพณี</a>
@@ -87,7 +434,7 @@
 
         <section id="places">
             <h2 class="reveal">12 สถานที่ท่องเที่ยวยอดนิยม</h2>
-            <p class="subtitle reveal">สัมผัสเสน่ห์เมืองไม้สักและธรรมชาติที่งดงาม (คลิกที่ชื่อเพื่อนำทาง)</p>
+            <p class="subtitle reveal">สัมผัสเสน่ห์เมืองไม้สักและธรรมชาติที่งดงาม</p>
 
             <div class="places-grid">
                 <div class="card reveal">
@@ -190,7 +537,7 @@
                 </div>
 
                 <div class="card reveal">
-                    <img src="https://images.unsplash.com/photo-1444491741275-3747c53c99b4?q=80&w=1000&auto=format&fit=crop" alt="บ้านทุ่งโฮ้ง" class="place-img" loading="lazy">
+                    <img src="https://scontent.fbkk9-3.fna.fbcdn.net/v/t1.6435-9/42933476_1040047696166031_2005717265869176832_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f798df&_nc_ohc=0XXgFcnJflEQ7kNvwHZlkbP&_nc_oc=AdkZFAdpgRfLura80fctzpfhvvxHEaEfdrakjiadQFc46kAnUv8WWrZL4Tn3OCbrIjA&_nc_zt=23&_nc_ht=scontent.fbkk9-3.fna&_nc_gid=iTnXWivoF73Hl_Ja_WnsvA&oh=00_AfvTlaCeZ2-fW64yyGh6ANVQ6VL08CQ6z-7a-gadB1XSUw&oe=69BE85D8" alt="บ้านทุ่งโฮ้ง" class="place-img" loading="lazy">
                     <div class="card-body">
                         <h3>10. บ้านทุ่งโฮ้ง</h3>
                         <p>ต้นตำรับการทำผ้าหม้อห้อมเมืองแพร่ เดินเลือกซื้อเสื้อผ้าหม้อห้อมแฟชั่นและเรียนรู้วิธีการย้อมผ้าด้วยคราม</p>
@@ -219,6 +566,34 @@
                         <button class="btn-video" data-video="UuyIu7HJjHA">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg> ชมวิดีโอ
                         </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="accommodation" class="reveal">
+            <h2>ที่พักแนะนำ 🛏️</h2>
+            <p class="subtitle reveal">พักผ่อนกายา ในบรรยากาศล้านนาที่อบอุ่น</p>
+            <div class="places-grid">
+                <div class="card reveal">
+                    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/38778860.jpg?k=58fc27ed3deb4f1181d3128c2d2baad5bb8d488cf1d200419c27957bd4f0ed31&o=" alt="โรงแรมเฮือนนานา" class="place-img" loading="lazy">
+                    <div class="card-body">
+                        <h3>เฮือนนานา บูทีค โฮเทล</h3>
+                        <p>ที่พักสไตล์ล้านนาร่วมสมัย ใจกลางเมืองแพร่ สะดวกสบาย ใกล้แหล่งท่องเที่ยว</p>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <img src="https://img.wongnai.com/p/1920x0/2019/01/16/d30c30700ce54c1eb9bc9c618cfe6830.jpg" alt="ภูมิไทย การ์เด้น" class="place-img" loading="lazy">
+                    <div class="card-body">
+                        <h3>ภูมิไทย การ์เด้น</h3>
+                        <p>โรงแรมบรรยากาศร่มรื่น ตกแต่งด้วยไม้สักทอง เอกลักษณ์เมืองแพร่</p>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <img src="https://www.b2hotel.com/wp-content/uploads/2022/09/b2phraehotel-1.jpg" alt="B2 Phrae" class="place-img" loading="lazy">
+                    <div class="card-body">
+                        <h3>B2 Phrae Boutique</h3>
+                        <p>ที่พักราคาประหยัด ทันสมัย สะอาด ได้มาตรฐาน เดินทางสะดวก</p>
                     </div>
                 </div>
             </div>
@@ -257,7 +632,7 @@
             <p class="subtitle reveal">มาถึงเมืองแพร่แล้ว อย่าลืมซื้อของฝากติดไม้ติดมือกลับไปฝากคนที่บ้าน</p>
             <div class="places-grid">
                 <div class="card reveal">
-                    <img src="https://scontent.fbkk8-2.fna.fbcdn.net/v/t39.30808-6/512693059_24180423148235794_2323149446717785056_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Y5mvlBKFkQsQ7kNvwFYr0aC&_nc_oc=Adnz_4UoYPWp7ZXCy8bmLk0sWle6CabOZfEBM628aAP_zFnn83yoOMXlpO6Z11TaB6g&_nc_zt=23&_nc_ht=scontent.fbkk8-2.fna&_nc_gid=fLaONH_wHHGcwPknxAHghg&oh=00_Afvk0e8y0bqHO0K65w5I0gTVvK4yy1tqB5GDEpL3VxxKAQ&oe=6996444D" alt="ผ้าหม้อห้อม" class="place-img" loading="lazy">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY9ZXUBjKaU9jyUo56jB3AuY7M3BUBp2EA9w&s" alt="ผ้าหม้อห้อม" class="place-img" loading="lazy">
                     <div class="card-body">
                         <h3>ผ้าหม้อห้อมบ้านทุ่งโฮ้ง</h3>
                         <p>สุดยอดของฝากอันเป็นเอกลักษณ์ของเมืองแพร่ มีให้เลือกทั้งเสื้อผ้าแฟชั่นร่วมสมัยและผ้าผืน สำหรับนำไปตัดเย็บ</p>
@@ -292,7 +667,7 @@
                     </div>
                 </div>
                 <div class="card reveal">
-                    <img src="https://scontent.fbkk9-3.fna.fbcdn.net/v/t39.30808-6/490474483_1069452798549899_2086008882462475299_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=TMG6ACmsKkwQ7kNvwH3DNij&_nc_oc=AdnGKE_J9s1WDdlGYEe_28Cs7qK6ukjPNPiUGOvs1T6C_NPrmrwDMdu7U_DE3WzfFwQ&_nc_zt=23&_nc_ht=scontent.fbkk9-3.fna&_nc_gid=ykCwp_YuPmbHQ0ZO9UMwfg&oh=00_Afue4IQYc_WRrcmNSooFpiXyQ-qqnzVpqJMQYoK9RS9dqQ&oe=69967BE5" alt="สงกรานต์หม้อห้อม" class="place-img" loading="lazy">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmppdtm_5cxiPfy3hsysYKsIB-vgzd6C8WWw&s" alt="สงกรานต์หม้อห้อม" class="place-img" loading="lazy">
                     <div class="card-body">
                         <h3>สงกรานต์หม้อห้อม</h3>
                         <p>เล่นน้ำสงกรานต์อย่างมีเอกลักษณ์ด้วยการสวมใส่เสื้อหม้อห้อมทั้งเมืองในเดือนเมษายน</p>
@@ -365,11 +740,34 @@
         </div>
     </div>
 
+    <!-- Place Detail Modal -->
+    <div id="placeModal" class="modal">
+        <div class="modal-content place-modal-content">
+            <div class="place-modal-header">
+                <span class="close-place-modal">&times;</span>
+                <img id="modalImg" src="" alt="" class="place-modal-img">
+            </div>
+            <div class="place-modal-body">
+                <h2 id="modalTitle" class="place-modal-title"></h2>
+                <p id="modalDesc" class="place-modal-desc"></p>
+                <div class="place-info-grid">
+                    <div class="place-info-item">🕒 <span id="modalTime"></span></div>
+                    <div class="place-info-item">📅 <span id="modalDays"></span></div>
+                    <div class="place-info-item">📞 <a id="modalPhone" href="#" style="color: inherit; text-decoration: none;"></a></div>
+                </div>
+                <div id="modalBookingSection" style="display: none;">
+                    <h4>เช็คราคาและจองที่พัก</h4>
+                    <div class="booking-links-card" id="modalBookingLinks"></div>
+                </div>
+                <a id="modalMapBtn" href="#" target="_blank" class="place-modal-btn">📍 นำทางไปที่นี่</a>
+            </div>
+        </div>
+    </div>
+
     <footer>
     <p>© 2026 Phrae Travel Guide | มนต์เสน่ห์แห่งล้านนาตะวันออก</p>
     <div style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
-        <p>จัดทำโดย: นาย ณชพล ศิริพรทุม เลขที่ 4</p>
-        <p>ชั้น ปวช.1/8 | เสนอ: นาย ณัฐวุฒิ กู่แก้ว</p>
+        <p>จัดทำโดย: นาย ณชพล ศิริพรทุม</p>
         <p style="font-size: 0.7rem; margin-top: 5px;">* ผลงานนี้เป็นส่วนหนึ่งของรายวิชา การพัฒนาเว็บแอปพลิเคชัน เพื่อการศึกษาเท่านั้น * </p>
     </div>
 </footer>
@@ -386,6 +784,327 @@
         <div class="lantern"></div><div class="lantern"></div><div class="lantern"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            addOpeningHours();
+            fetchWeather(); // เรียกฟังก์ชันสภาพอากาศ
+            setInterval(updateOpeningStatus, 60000);
+            
+            // Setup Modal Close Events
+            const placeModal = document.getElementById('placeModal');
+            const closeBtn = document.querySelector('.close-place-modal');
+            
+            const closePlaceModal = () => {
+                placeModal.classList.add('closing');
+                setTimeout(() => {
+                    placeModal.style.display = 'none';
+                    placeModal.classList.remove('closing');
+                }, 300); // รอให้ Animation จบก่อน (0.3s)
+            };
+
+            if (placeModal && closeBtn) {
+                closeBtn.addEventListener('click', closePlaceModal);
+                window.addEventListener('click', (e) => { if (e.target === placeModal) closePlaceModal(); });
+            }
+
+            // ✨ "Cool" Feature: Initialize Vanilla Tilt for a 3D hover effect on cards
+            VanillaTilt.init(document.querySelectorAll(".card.reveal"), {
+                max: 10,        // Max tilt rotation (degrees)
+                speed: 400,     // Speed of the enter/exit transition
+                glare: true,    // If it should have a "glare" effect
+                "max-glare": 0.4// The glare opacity (0-1)
+            });
+
+            // ✨ Even "Cooler" Feature: Spotlight effect on cards
+            document.querySelectorAll('.card.reveal').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+        });
+
+        async function fetchWeather() {
+            try {
+                // พิกัดจังหวัดแพร่ (Open-Meteo API ไม่ต้องใช้ Key)
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=18.1446&longitude=100.1403&current_weather=true');
+                const data = await response.json();
+                const temp = data.current_weather.temperature;
+                const code = data.current_weather.weathercode;
+                
+                document.getElementById('tempValue').textContent = temp;
+                
+                const descEl = document.getElementById('weatherDesc');
+                const iconEl = document.getElementById('weatherIcon');
+                
+                // แปลงรหัสสภาพอากาศแบบง่าย
+                if(code <= 3) { descEl.textContent = "ท้องฟ้าแจ่มใส"; iconEl.textContent = "☀️"; }
+                else if(code < 50) { descEl.textContent = "มีเมฆมาก"; iconEl.textContent = "☁️"; }
+                else if(code < 80) { descEl.textContent = "มีฝนตก"; iconEl.textContent = "🌧️"; }
+                else { descEl.textContent = "ฝนฟ้าคะนอง"; iconEl.textContent = "⛈️"; }
+            } catch (e) {
+                console.log("Weather error:", e);
+                document.getElementById('weatherDesc').textContent = "N/A";
+            }
+        }
+
+        function addOpeningHours() {
+            const cards = document.querySelectorAll('#places .card, #accommodation .card');
+            
+            const placesData = {
+                "วัดพระธาตุช่อแฮ": { time: "06:00 - 18:00 น.", days: "เปิดทุกวัน", phone: "054-599-209", category: "วัด/ศาสนสถาน" },
+                "คุ้มวงศ์บุรี": { time: "09:00 - 17:00 น.", days: "เปิดทุกวัน", phone: "054-620-153", category: "สถาปัตยกรรม" },
+                "อุทยานแพะเมืองผี": { time: "08:30 - 16:30 น.", days: "เปิดทุกวัน", phone: "054-533-040", category: "ธรรมชาติ" },
+                "พิพิธภัณฑ์คุ้มเจ้าหลวง": { time: "08:30 - 16:30 น.", days: "เปิดทุกวัน", phone: "054-524-158", category: "พิพิธภัณฑ์" },
+                "วัดพระธาตุสุโทนฯ": { time: "06:00 - 18:00 น.", days: "เปิดทุกวัน", phone: "054-521-127", category: "วัด/ศาสนสถาน" },
+                "บ้านนาคูหา": { time: "06:00 - 18:00 น.", days: "เปิดทุกวัน", phone: "054-521-127", category: "วิถีชุมชน" },
+                "กาดพระนอน": { time: "15:00 - 20:00 น.", days: "เฉพาะวันเสาร์", phone: "054-511-040", category: "ถนนคนเดิน" },
+                "วัดจอมสวรรค์": { time: "08:00 - 17:00 น.", days: "เปิดทุกวัน", phone: "054-521-127", category: "วัด/ศาสนสถาน" },
+                "อ่างเก็บน้ำแม่สาย": { time: "06:00 - 18:00 น.", days: "เปิดทุกวัน", phone: "054-521-127", category: "ธรรมชาติ" },
+                "บ้านทุ่งโฮ้ง": { time: "08:00 - 17:00 น.", days: "เปิดทุกวัน", phone: "054-521-127", category: "ช้อปปิ้ง/ชุมชน" },
+                "น้ำตกแม่เกิ๋ง": { time: "08:00 - 16:30 น.", days: "เปิดทุกวัน", phone: "054-556-763", category: "ธรรมชาติ" },
+                "ถ้ำผานางคอย": { time: "08:30 - 16:30 น.", days: "เปิดทุกวัน", phone: "054-521-127", category: "ธรรมชาติ" },
+                "เฮือนนานา บูทีค โฮเทล": { time: "00:00 - 23:59 น.", days: "เปิดทุกวัน", phone: "054-524-800", category: "ที่พัก/โรงแรม", bookingLinks: {
+                    agoda: 'https://www.agoda.com/th-th/huernnana-boutique-hotel/hotel/phrae-th.html',
+                    trip: 'https://th.trip.com/hotels/phrae-hotel-detail-566359/huernnana-boutique-hotel/'
+                }},
+                "ภูมิไทย การ์เด้น": { time: "00:00 - 23:59 น.", days: "เปิดทุกวัน", phone: "054-627-359", category: "ที่พัก/โรงแรม", bookingLinks: {
+                    agoda: 'https://www.agoda.com/th-th/phoomthai-garden-hotel/hotel/phrae-th.html',
+                    trip: 'https://th.trip.com/hotels/phrae-hotel-detail-566358/phoomthai-garden-hotel/'
+                }},
+                "B2 Phrae Boutique": { time: "00:00 - 23:59 น.", days: "เปิดทุกวัน", phone: "054-522-299", category: "ที่พัก/โรงแรม", bookingLinks: {
+                    agoda: 'https://www.agoda.com/th-th/b2-phrae-boutique-budget-hotel/hotel/phrae-th.html',
+                    trip: 'https://th.trip.com/hotels/phrae-hotel-detail-164626676/b2-phrae-boutique-budget-hotel/'
+                }}
+            };
+
+            cards.forEach(card => {
+                const titleEl = card.querySelector('h3');
+                if (!titleEl) return;
+                
+                const title = titleEl.textContent.trim();
+
+                const cleanTitle = title.replace(/^\d+\.\s*/, '').trim();
+                
+                const data = placesData[cleanTitle] || { 
+                    time: "08:00 - 17:00 น.", 
+                    days: "เปิดทุกวัน", 
+                    phone: "054-521-127",
+                    category: "สถานที่ท่องเที่ยว"
+                };
+
+                const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cleanTitle + ' แพร่')}`;
+
+                card.dataset.schedule = JSON.stringify(data);
+
+                // 1. สร้างป้ายสถานะ (Badge) ลอยบนรูปภาพ
+                const statusBadge = document.createElement('div');
+                statusBadge.className = 'status-overlay';
+                statusBadge.innerHTML = '<span class="status-dot"></span> <span class="status-text">Loading...</span>';
+                card.appendChild(statusBadge);
+
+                // 2. สร้างป้ายหมวดหมู่ (Category Tag) มุมซ้าย
+                const catTag = document.createElement('div');
+                catTag.className = 'category-tag';
+                catTag.textContent = data.category;
+                card.appendChild(catTag);
+
+                // 3. สร้างแถบข้อมูล (Info Bar) ใต้ชื่อสถานที่
+                const infoBar = document.createElement('div');
+                infoBar.className = 'info-bar';
+                infoBar.innerHTML = `
+                    <div class="info-text">
+                        <div class="info-days">📅 ${data.days}</div>
+                        <div class="info-time">🕒 ${data.time}</div>
+                    </div>
+                    <div class="info-actions">
+                        <a href="tel:${data.phone.replace(/-/g,'')}" class="action-btn" title="โทรสอบถาม">📞</a>
+                        <a href="${mapUrl}" target="_blank" class="action-btn" title="นำทาง">📍</a>
+                    </div>
+                `;
+                
+                if (titleEl) {
+                    titleEl.parentNode.insertBefore(infoBar, titleEl.nextSibling);
+                }
+
+                // 4. สร้างปุ่มจองที่พัก (ถ้ามี)
+                if (data.bookingLinks) {
+                    const bookingContainer = document.createElement('div');
+                    bookingContainer.className = 'booking-links-card';
+                    bookingContainer.innerHTML = `
+                        <a href="${data.bookingLinks.agoda}" target="_blank" class="booking-link agoda">Agoda</a>
+                        <a href="${data.bookingLinks.trip}" target="_blank" class="booking-link trip">Trip.com</a>
+                    `;
+                    const cardBody = card.querySelector('.card-body');
+                    if (cardBody) {
+                        // ลบปุ่มจองเดิม (ถ้ามี)
+                        const oldBtn = cardBody.querySelector('.btn-book');
+                        if (oldBtn) oldBtn.remove();
+                        cardBody.appendChild(bookingContainer);
+                    }
+                }
+
+                // Add Click Event for Popup
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.btn-video') && !e.target.closest('a') && !e.target.closest('.booking-link')) {
+                        const body = card.querySelector('.card-body');
+                        openPlaceModal(title, body.querySelector('p').textContent, card.querySelector('img').src, data, mapUrl);
+                    }
+                });
+            });
+
+            updateOpeningStatus();
+        }
+
+        function openPlaceModal(title, desc, imgSrc, data, mapUrl) {
+            const modal = document.getElementById('placeModal');
+            if (!modal) return;
+            
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDesc').textContent = desc;
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('modalTime').textContent = data.time;
+            document.getElementById('modalDays').textContent = data.days;
+            
+            const phoneLink = document.getElementById('modalPhone');
+            phoneLink.textContent = data.phone;
+            phoneLink.href = `tel:${data.phone.replace(/-/g,'')}`;
+            
+            document.getElementById('modalMapBtn').href = mapUrl;
+
+            // จัดการส่วน Booking Links ใน Modal
+            const bookingSection = document.getElementById('modalBookingSection');
+            const bookingLinksContainer = document.getElementById('modalBookingLinks');
+            bookingLinksContainer.innerHTML = ''; // Clear previous links
+
+            if (data.bookingLinks) {
+                bookingLinksContainer.innerHTML = `
+                    <a href="${data.bookingLinks.agoda}" target="_blank" class="booking-link agoda">Agoda</a>
+                    <a href="${data.bookingLinks.trip}" target="_blank" class="booking-link trip">Trip.com</a>
+                `;
+                bookingSection.style.display = 'block';
+            } else {
+                bookingSection.style.display = 'none';
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function updateOpeningStatus() {
+            const cards = document.querySelectorAll('#places .card, #accommodation .card');
+            const now = new Date();
+            const currentDay = now.getDay(); 
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+
+            cards.forEach(card => {
+                const statusBadge = card.querySelector('.status-overlay');
+                const statusText = card.querySelector('.status-text');
+                if (!statusBadge || !card.dataset.schedule) return;
+
+                try {
+                    const data = JSON.parse(card.dataset.schedule);
+                    let isOpen = false;
+
+                    let isDayOpen = data.days.includes("ทุกวัน") || 
+                                   (data.days.includes("เสาร์") && currentDay === 6) ||
+                                   (data.days.includes("อาทิตย์") && currentDay === 0);
+                    
+                    if (data.days.includes("เฉพาะวันเสาร์") && currentDay !== 6) isDayOpen = false;
+
+                    const timeMatch = data.time.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
+                    if (timeMatch && isDayOpen) {
+                        const openTime = parseInt(timeMatch[1]) * 60 + parseInt(timeMatch[2]);
+                        const closeTime = parseInt(timeMatch[3]) * 60 + parseInt(timeMatch[4]);
+                        
+                        if (currentTime >= openTime && currentTime < closeTime) {
+                            isOpen = true;
+                        }
+                    }
+
+                    // อัปเดต Class และข้อความของ Badge
+                    statusBadge.classList.add('visible');
+                    statusBadge.classList.remove('open', 'closed');
+                    
+                    if (isOpen) {
+                        statusBadge.classList.add('open');
+                        statusText.textContent = 'เปิดอยู่ (Open)';
+                    } else {
+                        statusBadge.classList.add('closed');
+                        statusText.textContent = 'ปิดทำการ (Closed)';
+                    }
+                } catch (e) {
+                    console.error("Error updating status", e);
+                }
+            });
+        }
+    </script>
+</body>
+</html>     document.getElementById('modalTime').textContent = data.time;
+            document.getElementById('modalDays').textContent = data.days;
+            
+            const phoneLink = document.getElementById('modalPhone');
+            phoneLink.textContent = data.phone;
+            phoneLink.href = `tel:${data.phone.replace(/-/g,'')}`;
+            
+            document.getElementById('modalMapBtn').href = mapUrl;
+
+            modal.style.display = 'block';
+        }
+
+        function updateOpeningStatus() {
+            const cards = document.querySelectorAll('#places .card, #accommodation .card');
+            const now = new Date();
+            const currentDay = now.getDay(); 
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+
+            cards.forEach(card => {
+                const statusBadge = card.querySelector('.status-overlay');
+                const statusText = card.querySelector('.status-text');
+                if (!statusBadge || !card.dataset.schedule) return;
+
+                try {
+                    const data = JSON.parse(card.dataset.schedule);
+                    let isOpen = false;
+
+                    let isDayOpen = data.days.includes("ทุกวัน") || 
+                                   (data.days.includes("เสาร์") && currentDay === 6) ||
+                                   (data.days.includes("อาทิตย์") && currentDay === 0);
+                    
+                    if (data.days.includes("เฉพาะวันเสาร์") && currentDay !== 6) isDayOpen = false;
+
+                    const timeMatch = data.time.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
+                    if (timeMatch && isDayOpen) {
+                        const openTime = parseInt(timeMatch[1]) * 60 + parseInt(timeMatch[2]);
+                        const closeTime = parseInt(timeMatch[3]) * 60 + parseInt(timeMatch[4]);
+                        
+                        if (currentTime >= openTime && currentTime < closeTime) {
+                            isOpen = true;
+                        }
+                    }
+
+                    // อัปเดต Class และข้อความของ Badge
+                    statusBadge.classList.add('visible');
+                    statusBadge.classList.remove('open', 'closed');
+                    
+                    if (isOpen) {
+                        statusBadge.classList.add('open');
+                        statusText.textContent = 'เปิดอยู่ (Open)';
+                    } else {
+                        statusBadge.classList.add('closed');
+                        statusText.textContent = 'ปิดทำการ (Closed)';
+                    }
+                } catch (e) {
+                    console.error("Error updating status", e);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

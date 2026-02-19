@@ -239,6 +239,17 @@ function initWebsite() {
             });
         }
     });
+
+    // --- 10. Scroll Progress Bar Logic ---
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        const progressBar = document.getElementById('scrollProgressBar');
+        if (progressBar) {
+            progressBar.style.width = scrolled + "%";
+        }
+    });
 }
 
 // ตรวจสอบสถานะการโหลดของหน้าเว็บเพื่อให้มั่นใจว่าโค้ดทำงานแน่นอน
